@@ -1,0 +1,17 @@
+.LCHeaderText {
+    display: flex;
+    justify-content:  center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 48px;
+    color: burlywood;
+    margin-top: 12px;
+}
+
+.LCHeaderButton {
+
+    display: flex;
+    justify-content:  center;
+    align-items: center;
+    margin-top: 12px;
+}
