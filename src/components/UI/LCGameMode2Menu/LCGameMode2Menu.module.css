@@ -1,0 +1,53 @@
+.LCGameModeBorder {
+    padding: 10px;
+    margin-top: 28px;
+    display: flex;
+    align-items:center;
+    justify-content: flex-start;
+    border: 4px dotted burlywood;
+    border-radius: 12px;
+    height: 700px;
+    flex-direction: column;
+}
+
+
+
+.LCSkill {
+    padding: 12px;
+    margin: 24px 0 24px 0;
+    display: flex;
+    align-items:flex-start;
+    justify-content: center;
+    border: 4px solid burlywood;
+    height: 70%;
+    width: 90%;    
+    background-image: url('../../../images/ImageForGameMode2/W_Corp_Cleanup_Agent_Ry_2Skill.png');
+    background-size: cover ;
+}
+
+
+.LCPassive {
+    padding: 12px;
+    margin: 24px 0 24px 0;
+    display: flex;
+    align-items:flex-start;
+    justify-content: center;
+    border: 4px solid burlywood;
+    height: 70%;
+    width: 90%;    
+    background-image: url('../../../images/ImageForGameMode2/W_Corp_Cleanup_Agent_Ry_Passive.png');
+    background-size: cover ;
+}
+
+.LCSupport {
+    padding: 12px;
+    margin: 24px 0 24px 0;
+    display: flex;
+    align-items:flex-start;
+    justify-content: center;
+    border: 4px solid burlywood;
+    height: 70%;
+    width: 90%;    
+    background-image: url('../../../images/ImageForGameMode2/W_Corp_Cleanup_Agent_Ry_Support.png');
+    background-size: cover ;
+}

@@ -1,11 +1,12 @@
 
 import React from "react";
+import LCGameMode3Menu from "../components/UI/LCGameMode3Menu/LCGameMode3Menu";
 
 
 const LCGameMode3 = () => {
 return(
 
-    <div style = {{display: 'flex', justifyContent: 'center' , color: 'red' , fontSize: '50px'}}> BY EGO </div>
+    <LCGameMode3Menu/>
 
 );
 };

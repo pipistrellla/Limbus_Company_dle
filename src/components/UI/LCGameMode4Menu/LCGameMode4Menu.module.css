@@ -1,0 +1,18 @@
+.LCGameModeBorder {
+    padding: 10px;
+    margin-top: 28px;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    border: 4px dotted burlywood;
+    border-radius: 12px;
+    height: 700px;
+    flex-direction: column;
+}
+
+
+
+.LCEmoji {
+    font-size: 50px;
+    background-color: rgba(202, 103, 9, 0.74)
+}

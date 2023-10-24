@@ -1,12 +1,14 @@
-
-
 import React from "react";
+import LCGameMode1Menu from "../components/UI/LCGameMode1Menu/LCGameMode1Menu";
 
 
 const LCGameMode1 = () => {
 return(
 
-    <div style = {{display: 'flex', justifyContent: 'center' , color: 'red' , fontSize: '50px'}}> BY PICTURE </div>
+        <LCGameMode1Menu/>
+
+
+
 );
 };
 

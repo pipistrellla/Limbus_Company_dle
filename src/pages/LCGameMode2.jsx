@@ -1,12 +1,14 @@
-
-
 import React from "react";
+import LCGameMode2Menu from "../components/UI/LCGameMode2Menu/LCGameMode2Menu";
+
 
 
 const LCGameMode2 = () => {
 return(
 
-    <div style = {{display: 'flex', justifyContent: 'center' , color: 'red' , fontSize: '50px'}}> BY PASSIVE </div>
+    <div>
+        <LCGameMode2Menu/>    
+    </div>
 
 );
 };

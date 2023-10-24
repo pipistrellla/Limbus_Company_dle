@@ -1,0 +1,23 @@
+.LCInput {
+
+    width: 60%;
+    height: 10%;
+    font-size: 36px;
+    background-color: rgba(111,0,0);
+    color: rgba(186,136,1);
+    text-align: center;
+    border: 2px solid black;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 1) , 
+    inset 0 0 10px rgba(0, 0, 0, 1) ;
+
+    
+
+}
+
+
+
+
+.LCInput:focus {
+    outline: none;
+    border: 4px solid black;;
+}

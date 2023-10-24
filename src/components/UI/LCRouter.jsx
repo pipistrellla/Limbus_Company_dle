@@ -9,6 +9,7 @@ const LCRouter = () => {
         <Routes>
             {routes.map(route => 
                 <Route  
+                    key = {route.path}
                     path = {route.path}
                     Component = {route.component}/>
             )}

@@ -1,11 +1,12 @@
 
 import React from "react";
+import LCGameMode4Menu from "../components/UI/LCGameMode4Menu/LCGameMode4Menu";
 
 
 const LCGameMode4 = () => {
 return(
 
-    <div style = {{display: 'flex', justifyContent: 'center' , color: 'red' , fontSize: '50px'}}> BY EMOJI </div>
+    <LCGameMode4Menu/>
 
 );
 };
