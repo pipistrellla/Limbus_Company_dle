@@ -7,8 +7,8 @@ const LCGameMode1Menu = () => {
 return(
     <form>
         <div className={classes.LCGameModeBorder}>
-            <div className={classes.LCGameModePicture}>
-            </div>
+            <canvas className={classes.LCGameModePicture}>
+            </canvas>
             
             <LCInput/>
             <LCButton> Confirm </LCButton>

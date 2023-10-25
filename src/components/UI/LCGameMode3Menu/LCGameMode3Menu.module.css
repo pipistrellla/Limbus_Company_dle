@@ -16,12 +16,13 @@
     padding: 12px;
     margin: 24px 0 24px 0;
     display: flex;
-    align-items:flex-start;
-    justify-content: center;
     border: 4px solid burlywood;
     border-radius: 400px;
-    height: 70%;
-    width: 90%;    
+    height: 500px;
+    width: 500px;
+    border-radius: 50%; 
+    background-position: center;   
     background-image: url('../../../images/ImageForGameMode3/Ry_Base_EGO.png');
+    background-repeat: no-repeat;
 }
 

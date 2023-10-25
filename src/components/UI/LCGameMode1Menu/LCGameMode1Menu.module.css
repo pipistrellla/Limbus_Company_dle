@@ -23,4 +23,5 @@
     width: 90%;    
     background-image: url('../../../images//imageForGameMode1/W_Corp__Cleanup_Agent_Ry_.png');
     background-size: cover ;
+    background-repeat: no-repeat;
 }
