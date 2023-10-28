@@ -10,45 +10,50 @@
     flex-direction: column;
 }
 
+.LCFirstLine{
+    display: flex;
+    flex-direction: row ;
+}
+
+.LCSecondLine{
+    display: flex;
+    flex-direction: column ;
+    min-width: 400px;
+    justify-content: center;
+}
 
 
 .LCSkill {
-    padding: 12px;
-    margin: 24px 0 24px 0;
-    border: 4px solid burlywood;
-    height: 1200px;
-    width: 600px;    
+    margin: 0px 0 24px 0;
+    border: 4px solid burlywood;   
     background-image: url('../../../images/ImageForGameMode2/W_Corp_Cleanup_Agent_Ry_2Skill.png');
     background-size: cover ;
     background-position: center;
     background-repeat: no-repeat;
+    scale: 0.8;
 }
 
 
 .LCPassive {
-    padding: 12px;
-    margin: 24px 0 24px 0;
+    margin: 24px 24px 0 24px;
     display: flex;
     align-items:flex-start;
     justify-content: center;
-    border: 4px solid burlywood;
-    height: 1200px;
-    width: 600px;     
+    border: 4px solid burlywood;   
     background-image: url('../../../images/ImageForGameMode2/W_Corp_Cleanup_Agent_Ry_Passive.png');
     background-size: cover ;
     background-repeat: no-repeat;
+    min-width: 450px;
 }
 
 .LCSupport {
-    padding: 12px;
-    margin: 24px 0 24px 0;
+    margin: 24px 24px 0 24px;
     display: flex;
     align-items:flex-start;
     justify-content: center;
-    border: 4px solid burlywood;
-    height: 1200px;
-    width: 600px;     
+    border: 4px solid burlywood;   
     background-image: url('../../../images/ImageForGameMode2/W_Corp_Cleanup_Agent_Ry_Support.png');
     background-size: cover ;
     background-repeat: no-repeat;
+    min-width: 450px;
 }

@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from "react";
+import React, {useRef, useState} from "react";
 import classes from './LCGameMode1Menu.module.css';
 import LCInput from "../LCInput/LCInput";
 import LCButton from '../LCButton/LCButton'
@@ -24,36 +24,39 @@ const LCGameMode1Menu = () => {
     const [userAnswer, setUserAnswer] = useState('')
 
 
-function canvasClear(){
-    const canvas = canvasRef.current;
-    const context = canvas.getContext('2d');
-    LCCanvasClear(context);
-}
-
-
-
-function UnDraw (xArr , yArr) {
-    const canvas = canvasRef.current
-    const context = canvas.getContext('2d')
-    let x = Math.floor((Math.random() * (context.canvas.width - 0 + 1))/25)*25
-    let y = Math.floor((Math.random() * (context.canvas.height - 0 + 1))/25)*25
-
-
-    for (let i = 0; i< xArr.length ; i++){
-        
-        if ((xArr[i] === x) && (yArr[i]===y)){
-            return UnDraw(xArr, yArr);
-        }
+    function canvasClear(){
+        const canvas = canvasRef.current;
+        const context = canvas.getContext('2d');
+        LCCanvasClear(context);
     }
-    
-    xArr.push(x);
-    yArr.push(y);
 
-    LCUndraw(context,x,y);
-}
 
-let xArr = [];
-let yArr = [];
+
+    function UnDraw (xArr , yArr) {
+        const canvas = canvasRef.current
+        const context = canvas.getContext('2d')
+        let x = Math.floor((Math.random() * (context.canvas.width - 0 + 1))/25)*25
+        let y = Math.floor((Math.random() * (context.canvas.height - 0 + 1))/25)*25
+
+
+        for (let i = 0; i< xArr.length ; i++){
+            
+            if ((xArr[i] === x) && (yArr[i]===y)){
+                if (xArr.length > 74)
+                        {break}
+                return UnDraw(xArr, yArr);
+            }
+        }
+        
+        xArr.push(x);
+        yArr.push(y);
+
+        LCUndraw(context,x,y,clearRect);
+    }
+
+    const clearRect = 25;
+    let xArr = [];
+    let yArr = [];
 
 
 
@@ -68,9 +71,10 @@ return(
 
                 <LCInput type = 'text' 
                 name = 'userAnswer'
-                placeholder = 'Enter LC identity' 
+                placeholder = 'Enter LC character name' 
                 onChange={(event) => setUserAnswer(event.target.value)}/>
-                <LCButton onClick = {(e, context) => 
+                
+                <LCButton onClick = {(e) => 
                                         {e.preventDefault();
                                             if (LCAnswerCheck(userAnswer, gameMode1Answer)) {
                                                 canvasClear()
