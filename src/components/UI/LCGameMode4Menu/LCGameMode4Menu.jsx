@@ -8,7 +8,7 @@ const LCGameMode4Menu = () => {
     const [userAnswer, setUserAnswer] = useState('');
 
     
-    const emojiGuess = '⚔ 🚬 🚅 🧽'
+    const emojiGuess = '⚔ 🚬🚅 🧽'
     const emojiGuessArr = emojiGuess.split(' ')
 
     const emojiGuessArrShowed = [];

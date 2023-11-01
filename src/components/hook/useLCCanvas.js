@@ -8,8 +8,10 @@ export const useLCCanvasFill = (ref , drawFunc) => {
         const context = canvas.getContext('2d')
         
         drawFunc(context);
-    
+
+
     }, [])
+
 
 };
 

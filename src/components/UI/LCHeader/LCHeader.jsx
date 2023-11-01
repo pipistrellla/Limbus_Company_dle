@@ -11,7 +11,7 @@ const LCHeader = () => {
             <div className={classes.LCHeaderButton}>
 
             
-                <LCButton onClick = {() => console.log('settings opened!') }  > settings </LCButton>
+                <LCButton onClick = {() => localStorage.clear() }  > settings </LCButton>
                 <LCButton onClick = {() => console.log('hellow world!')}> 
                     <Link to= '/LCdle'> Limbus Companydle </Link> 
                 </LCButton>

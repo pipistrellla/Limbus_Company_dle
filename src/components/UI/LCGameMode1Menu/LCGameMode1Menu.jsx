@@ -17,6 +17,7 @@ const LCGameMode1Menu = () => {
 
     const canvasRef = useRef();
 
+
     useLCCanvasFill(canvasRef, LCFillBlack);
 
     const gameMode1Answer = 'ryoshu'
@@ -27,6 +28,16 @@ const LCGameMode1Menu = () => {
     function canvasClear(){
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
+        xArr = [];
+        yArr = [];
+            for (let i = 0 ; i < context.canvas.width; i+=clearRect ) {
+                for (let j = 0 ; j < context.canvas.height; j+=clearRect ){
+                    xArr.push(i);
+                    yArr.push(j);
+                }
+            }
+
+
         LCCanvasClear(context);
     }
 
@@ -35,8 +46,8 @@ const LCGameMode1Menu = () => {
     function UnDraw (xArr , yArr) {
         const canvas = canvasRef.current
         const context = canvas.getContext('2d')
-        let x = Math.floor((Math.random() * (context.canvas.width - 0 + 1))/25)*25
-        let y = Math.floor((Math.random() * (context.canvas.height - 0 + 1))/25)*25
+        let x = Math.floor((Math.random() * (context.canvas.width - 0 + 1))/clearRect)*clearRect
+        let y = Math.floor((Math.random() * (context.canvas.height - 0 + 1))/clearRect)*clearRect
 
 
         for (let i = 0; i< xArr.length ; i++){
@@ -55,8 +66,40 @@ const LCGameMode1Menu = () => {
     }
 
     const clearRect = 25;
+
     let xArr = [];
     let yArr = [];
+    if (localStorage.getItem('gameMode1XArr') === null) {
+        localStorage.setItem('gameMode1XArr' , '25');
+        localStorage.setItem('gameMode1YArr' , '25');
+    }
+
+
+
+    let xArrLocal = localStorage.getItem('gameMode1XArr').split(' ')
+
+    for (let i = 0; i < xArrLocal.length ; i+=1){
+        xArr.push(+xArrLocal[i]);
+    }
+
+    let yArrLocal = localStorage.getItem('gameMode1YArr').split(' ')
+
+    for (let i = 0; i < yArrLocal.length ; i+=1){
+        yArr.push(+yArrLocal[i]);
+    }
+
+
+
+    console.log(localStorage.getItem('gameMode1XArr'));
+
+    console.log(xArr);
+
+
+    setTimeout(() => {
+        
+        for (let i = 0; i < xArr.length; i+=1  )
+        LCUndraw(canvasRef.current.getContext('2d'),xArr[i],yArr[i],clearRect) }, 
+    400);
 
 
 
@@ -72,18 +115,24 @@ return(
                 <LCInput type = 'text' 
                 name = 'userAnswer'
                 placeholder = 'Enter LC character name' 
-                onChange={(event) => setUserAnswer(event.target.value)}/>
+                onChange={(event) => setUserAnswer(event.target.value)} />
                 
                 <LCButton onClick = {(e) => 
                                         {e.preventDefault();
                                             if (LCAnswerCheck(userAnswer, gameMode1Answer)) {
                                                 canvasClear()
+                                                localStorage.setItem('gameMode1XArr' , xArr.join(' '));
+                                                localStorage.setItem('gameMode1YArr' , yArr.join(' '));
+
                                             }
                                             else {
                                                 UnDraw(xArr,yArr)
+                                                localStorage.setItem('gameMode1XArr' , xArr.join(' '));
+                                                localStorage.setItem('gameMode1YArr' , yArr.join(' '));
                                             }
                                         }
-                                    } > Confirm </LCButton>
+                                    } > Confirm 
+                                    </LCButton>
 
 
 
