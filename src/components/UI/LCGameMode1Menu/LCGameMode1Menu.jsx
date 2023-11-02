@@ -70,8 +70,8 @@ const LCGameMode1Menu = () => {
     let xArr = [];
     let yArr = [];
     if (localStorage.getItem('gameMode1XArr') === null) {
-        localStorage.setItem('gameMode1XArr' , '25');
-        localStorage.setItem('gameMode1YArr' , '25');
+        localStorage.setItem('gameMode1XArr' , `${clearRect}`);
+        localStorage.setItem('gameMode1YArr' , `${clearRect}`);
     }
 
 
@@ -88,11 +88,6 @@ const LCGameMode1Menu = () => {
         yArr.push(+yArrLocal[i]);
     }
 
-
-
-    console.log(localStorage.getItem('gameMode1XArr'));
-
-    console.log(xArr);
 
 
     setTimeout(() => {

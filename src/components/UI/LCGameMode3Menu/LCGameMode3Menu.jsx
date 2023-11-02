@@ -22,6 +22,16 @@ const LCGameMode3Menu = () => {
     function canvasClear(){
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
+
+        xArr = [];
+        yArr = [];
+            for (let i = 0 ; i < context.canvas.width; i+=clearRect ) {
+                for (let j = 0 ; j < context.canvas.height; j+=clearRect ){
+                    xArr.push(i);
+                    yArr.push(j);
+                }
+            }
+
         LCCanvasClear(context);
     }
 
@@ -51,9 +61,38 @@ const LCGameMode3Menu = () => {
         LCUndraw(context,x,y,clearRect);
     }
 
+
+    if (localStorage.getItem('gameMode3XArr') === null) {
+        localStorage.setItem('gameMode3XArr' , `${clearRect}`);
+        localStorage.setItem('gameMode3YArr' , `${clearRect}`);
+    }
+
     let xArr = [];
     let yArr = [];
 
+
+
+    let xArrLocal = localStorage.getItem('gameMode3XArr').split(' ')
+
+
+    for (let i = 0; i < xArrLocal.length ; i+=1){
+        xArr.push(+xArrLocal[i]);
+    }
+
+
+    let yArrLocal = localStorage.getItem('gameMode3YArr').split(' ')
+
+
+    for (let i = 0; i < yArrLocal.length ; i+=1){
+        yArr.push(+yArrLocal[i]);
+    }
+
+
+    setTimeout(() => {
+        
+        for (let i = 0; i < xArr.length; i+=1  )
+        LCUndraw(canvasRef.current.getContext('2d'),xArr[i],yArr[i],clearRect) }, 
+    400);
 
 
 return(
@@ -73,9 +112,13 @@ return(
                                         {e.preventDefault();
                                             if (LCAnswerCheck(userAnswer, gameMode3Answer)) {
                                                 canvasClear()
+                                                localStorage.setItem('gameMode3XArr' , xArr.join(' '));
+                                                localStorage.setItem('gameMode3YArr' , yArr.join(' '));
                                             }
                                             else {
                                                 UnDraw(xArr,yArr)
+                                                localStorage.setItem('gameMode3XArr' , xArr.join(' '));
+                                                localStorage.setItem('gameMode3YArr' , yArr.join(' '));
                                             }
                                         }}
                                     > Confirm </LCButton>

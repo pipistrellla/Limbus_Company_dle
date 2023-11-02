@@ -11,7 +11,6 @@ import { LCAnswerCheck } from "../../LCAnswerCheck";
 
 
 const LCGameMode2Menu = () => {
-    let n = 0;
     const [userAnswer, setUserAnswer] = useState('');
 
     const canvasRefPassive = useRef();
@@ -34,6 +33,26 @@ const LCGameMode2Menu = () => {
         LCCanvasClear(context);
     }
 
+    if (localStorage.getItem('gameMode2Passive') === null) {
+        localStorage.setItem('gameMode2Passive' , JSON.stringify(false));
+    }
+
+    if (localStorage.getItem('gameMode2Support') === null) {
+        localStorage.setItem('gameMode2Support' , 'false');
+    }
+
+    setTimeout(() => {
+        
+        if (JSON.parse(localStorage.getItem('gameMode2Support')) === true)
+        {
+            canvasClearSupport();
+        }
+        if (JSON.parse(localStorage.getItem('gameMode2Passive')) === true)
+        {
+            canvasClearPassive();
+        }}, 
+
+    400);
 
 
 return(
@@ -67,11 +86,14 @@ return(
                             }
                             else {
                                 canvasClearPassive()
-                                if (n===1){
+                                
+                                if (JSON.parse(localStorage.getItem('gameMode2Passive')) === true){
                                     canvasClearSupport()
+                                    localStorage.setItem('gameMode2Support' , JSON.stringify(true));
                                     
                                 }
-                                n+=1
+                                localStorage.setItem('gameMode2Passive' , JSON.stringify(true));
+                                
                             }
                         }
                     }> Confirm </LCButton>
