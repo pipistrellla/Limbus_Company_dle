@@ -8,6 +8,8 @@ import { LCUndraw } from "../../LCUndraw";
 import { useLCCanvasFill} from "../../hook/useLCCanvas";
 import { LCCanvasClear } from "../../LCCanvasClear";
 import {LCAnswerCheck} from "../../LCAnswerCheck";
+import LCSelect from "../LCSelect/LCSelect";
+import { LCEGOList } from "../LCAllAnswersCheck/LCAllEGO";
 
 const LCGameMode3Menu = () => {
 
@@ -17,7 +19,11 @@ const LCGameMode3Menu = () => {
 
     const gameMode3Answer = 'ryoshu'
 
+    const gameMode3EGOAnswer = 'forest for the flames'
+
+    const [EGO , setEGO] = useState('chose the right EGO')
     const [userAnswer, setUserAnswer] = useState('')
+    const [LCSelectVisible , setLCSelectVisible ] = useState(false)
 
     function canvasClear(){
         const canvas = canvasRef.current;
@@ -90,9 +96,18 @@ const LCGameMode3Menu = () => {
 
     setTimeout(() => {
         
-        for (let i = 0; i < xArr.length; i+=1  )
-        LCUndraw(canvasRef.current.getContext('2d'),xArr[i],yArr[i],clearRect) }, 
-    400);
+        for (let i = 0; i < xArr.length; i+=1  ){
+            LCUndraw(canvasRef.current.getContext('2d'),xArr[i],yArr[i],clearRect)
+        }
+        
+        if (localStorage.getItem('GameMode3Answer') === null) {
+            setLCSelectVisible(false)
+        }
+        else {
+            setLCSelectVisible(true)
+    }
+    }, 
+    20);
 
 
 return(
@@ -114,6 +129,8 @@ return(
                                                 canvasClear()
                                                 localStorage.setItem('gameMode3XArr' , xArr.join(' '));
                                                 localStorage.setItem('gameMode3YArr' , yArr.join(' '));
+                                                localStorage.setItem('GameMode3Answer', JSON.stringify(true))
+                                                setLCSelectVisible(true)
                                             }
                                             else {
                                                 UnDraw(xArr,yArr)
@@ -122,6 +139,14 @@ return(
                                             }
                                         }}
                                     > Confirm </LCButton>
+
+            <LCSelect
+            value = {EGO}
+            onChange= {value => setEGO(value) }
+            defaultValue = {EGO}
+            options = {LCEGOList}
+            visible = {LCSelectVisible}
+            />
 
 
 

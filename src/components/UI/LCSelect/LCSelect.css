@@ -1,0 +1,41 @@
+.LCSelect {
+    display: none;
+}
+
+select {
+    padding: 14px 28px;
+    margin: 0 14px 10px 14px;
+    color: burlywood ;
+    font-size: 20px;
+    background-color: rgba(0, 0, 0,  0.6);
+    border: 2px solid burlywood ;
+    cursor: pointer; 
+}
+
+
+select:focus {
+    border: 2px solid black;
+}
+
+option {
+    color: black ;
+    font-size: 20px;
+    background-color:  burlywood;
+    cursor: pointer;
+}
+
+
+option:checked {
+    background-color: lightgreen;
+}
+
+/* .LCSelect.hiden {
+    display: none;
+} */
+
+.LCSelect.show {
+    display: flex;
+}
+
+
+

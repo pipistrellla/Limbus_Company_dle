@@ -6,14 +6,14 @@
     justify-content: flex-start;
     border: 4px dotted burlywood;
     border-radius: 12px;
-    height: 700px;
+    height: 750px;
     flex-direction: column;
 }
 
 
 
 .LCEGO {
-    margin: 24px 0 24px 0;
+    margin: 12px 0 12px 0;
     display: flex;
     border: 4px solid burlywood;
     border-radius: 400px;
