@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import  './LCSelect.css';
 
 const LCSelect = ({options , defaultValue, value, onChange , visible}) => {
@@ -7,7 +7,6 @@ const LCSelect = ({options , defaultValue, value, onChange , visible}) => {
 
     if (visible) {
         rootClass.push('show')
-        console.log('123')
     }
 
     return(

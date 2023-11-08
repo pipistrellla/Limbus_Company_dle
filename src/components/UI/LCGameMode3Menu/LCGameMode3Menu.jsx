@@ -9,10 +9,13 @@ import { useLCCanvasFill} from "../../hook/useLCCanvas";
 import { LCCanvasClear } from "../../LCCanvasClear";
 import {LCAnswerCheck} from "../../LCAnswerCheck";
 import LCSelect from "../LCSelect/LCSelect";
-import { LCEGOList } from "../LCAllAnswersCheck/LCAllEGO";
+// import { LCEGOList } from "../../LCDitectoryFileNameReader/test";
 
 const LCGameMode3Menu = () => {
 
+    // const List = require('../../LCDitectoryFileNameReader/test')
+    // const LCEGOList = List.LCEGOList
+    
     const canvasRef = useRef();
 
     useLCCanvasFill(canvasRef, LCFillBlack);
@@ -102,12 +105,22 @@ const LCGameMode3Menu = () => {
         
         if (localStorage.getItem('GameMode3Answer') === null) {
             setLCSelectVisible(false)
+            
         }
         else {
             setLCSelectVisible(true)
-    }
+        }
+
+
+        if (JSON.parse(localStorage.getItem('GameMode3EGOAnswer')) === true) {
+            console.log('ERA')
+        }
     }, 
     20);
+
+
+
+
 
 
 return(
@@ -138,14 +151,20 @@ return(
                                                 localStorage.setItem('gameMode3YArr' , yArr.join(' '));
                                             }
                                         }}
-                                    > Confirm </LCButton>
+                                    > Confirm 
+            </LCButton>
 
             <LCSelect
-            value = {EGO}
-            onChange= {value => setEGO(value) }
-            defaultValue = {EGO}
-            options = {LCEGOList}
-            visible = {LCSelectVisible}
+                value = {EGO}
+                onChange= { value => {setEGO(value);
+                                    if (LCAnswerCheck(value , gameMode3EGOAnswer) )
+                                        {
+                                            localStorage.setItem('GameMode3EGOAnswer' , JSON.stringify(true));
+                                            console.log('YES')
+                                        }}}
+                defaultValue = {EGO}
+                options = {LCEGOList}
+                visible = {LCSelectVisible}
             />
 
 

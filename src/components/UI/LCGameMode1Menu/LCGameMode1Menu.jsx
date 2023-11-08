@@ -21,8 +21,11 @@ const LCGameMode1Menu = () => {
     useLCCanvasFill(canvasRef, LCFillBlack);
 
     const gameMode1Answer = 'ryoshu'
+    const gameMode1IdentityAnswer = 'W Corp. L3 Cleanup Agent Ry3F Full'
 
+    onst [identity , setIdentity] = useState('chose the right Identity')
     const [userAnswer, setUserAnswer] = useState('')
+    const [LCSelectVisible , setLCSelectVisible ] = useState(false)
 
 
     function canvasClear(){
@@ -92,9 +95,25 @@ const LCGameMode1Menu = () => {
 
     setTimeout(() => {
         
-        for (let i = 0; i < xArr.length; i+=1  )
-        LCUndraw(canvasRef.current.getContext('2d'),xArr[i],yArr[i],clearRect) }, 
-    400);
+        for (let i = 0; i < xArr.length; i+=1  ) {
+            LCUndraw(canvasRef.current.getContext('2d'),xArr[i],yArr[i],clearRect);
+        }
+
+        if (localStorage.getItem('GameMode1Answer') === null) {
+            setLCSelectVisible(false)
+            
+        }
+        else {
+            setLCSelectVisible(true)
+        }
+
+
+        if (JSON.parse(localStorage.getItem('GameMode1IdentityAnswer')) === true) {
+            console.log('ERA')
+        }
+    }, 
+    
+    20);
 
 
 
@@ -118,6 +137,7 @@ return(
                                                 canvasClear()
                                                 localStorage.setItem('gameMode1XArr' , xArr.join(' '));
                                                 localStorage.setItem('gameMode1YArr' , yArr.join(' '));
+                                                localStorage.setItem('GameMode1Answer', JSON.stringify(true))
 
                                             }
                                             else {
@@ -126,8 +146,21 @@ return(
                                                 localStorage.setItem('gameMode1YArr' , yArr.join(' '));
                                             }
                                         }
-                                    } > Confirm 
-                                    </LCButton>
+                                    }> Confirm 
+                </LCButton>
+
+                <LCSelect
+                    value = {EGO}
+                    onChange= { value => {setEGO(value);
+                                        if (LCAnswerCheck(value , gameMode1IdentitynAnswer) )
+                                            {
+                                                localStorage.setItem('GameMode1IdentityAnswer' , JSON.stringify(true));
+                                                console.log('YES')
+                                            }}}
+                    defaultValue = {EGO}
+                    options = {LCEGOList}
+                    visible = {LCSelectVisible}
+            />
 
 
 
