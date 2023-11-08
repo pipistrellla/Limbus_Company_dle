@@ -9,7 +9,7 @@ import { useLCCanvasFill} from "../../hook/useLCCanvas";
 import { LCCanvasClear } from "../../LCCanvasClear";
 import {LCAnswerCheck} from "../../LCAnswerCheck";
 import LCSelect from "../LCSelect/LCSelect";
-// import { LCEGOList } from "../../LCDitectoryFileNameReader/test";
+// import { LCEGOList } from "../../LCDitectoryFileNameReader/LCDirectoryFileNameReader";
 
 const LCGameMode3Menu = () => {
 
@@ -27,7 +27,8 @@ const LCGameMode3Menu = () => {
     const [EGO , setEGO] = useState('chose the right EGO')
     const [userAnswer, setUserAnswer] = useState('')
     const [LCSelectVisible , setLCSelectVisible ] = useState(false)
-
+    let LCEGOList = [];
+    console.log(localStorage)
     function canvasClear(){
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');

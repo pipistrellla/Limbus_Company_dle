@@ -8,13 +8,14 @@ import { LCFillBlack } from "../../LCFillBlack";
 import { LCUndraw } from "../../LCUndraw";
 import { LCAnswerCheck } from "../../LCAnswerCheck";
 import { LCCanvasClear } from "../../LCCanvasClear";
+import LCSelect from "../LCSelect/LCSelect";
 
 
 
 
 
-const LCGameMode1Menu = () => {
 
+const LCGameMode1Menu = () => { 
     const canvasRef = useRef();
 
 
@@ -23,7 +24,7 @@ const LCGameMode1Menu = () => {
     const gameMode1Answer = 'ryoshu'
     const gameMode1IdentityAnswer = 'W Corp. L3 Cleanup Agent Ry3F Full'
 
-    onst [identity , setIdentity] = useState('chose the right Identity')
+    const [identity , setIdentity] = useState('chose the right Identity')
     const [userAnswer, setUserAnswer] = useState('')
     const [LCSelectVisible , setLCSelectVisible ] = useState(false)
 
@@ -150,15 +151,15 @@ return(
                 </LCButton>
 
                 <LCSelect
-                    value = {EGO}
-                    onChange= { value => {setEGO(value);
-                                        if (LCAnswerCheck(value , gameMode1IdentitynAnswer) )
+                    value = {identity}
+                    onChange= { value => {setIdentity(value);
+                                        if (LCAnswerCheck(value , gameMode1IdentityAnswer) )
                                             {
                                                 localStorage.setItem('GameMode1IdentityAnswer' , JSON.stringify(true));
                                                 console.log('YES')
                                             }}}
-                    defaultValue = {EGO}
-                    options = {LCEGOList}
+                    defaultValue = {identity}
+                    // options = {LCEGOList}
                     visible = {LCSelectVisible}
             />
 

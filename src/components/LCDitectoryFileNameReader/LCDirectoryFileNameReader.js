@@ -24,6 +24,7 @@ let gameMode3Path = '../../images/imageForGameMode3'
 const gameMode1Select = PictureObjectCreator(gameMode1Path);
 const LCEGOList = PictureObjectCreator(gameMode3Path);
 
+localStorage.setItem('gameMode1Path' , JSON.stringify(LCEGOList));
 
 exports.LCEGOList = LCEGOList
 
