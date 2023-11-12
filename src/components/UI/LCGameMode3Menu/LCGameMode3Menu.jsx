@@ -9,15 +9,14 @@ import { useLCCanvasFill} from "../../hook/useLCCanvas";
 import { LCCanvasClear } from "../../LCCanvasClear";
 import {LCAnswerCheck} from "../../LCAnswerCheck";
 import LCSelect from "../LCSelect/LCSelect";
-// import { LCEGOList } from "../../LCDitectoryFileNameReader/LCDirectoryFileNameReader";
 
 const LCGameMode3Menu = () => {
 
-    // const List = require('../../LCDitectoryFileNameReader/test')
-    // const LCEGOList = List.LCEGOList
     
     const canvasRef = useRef();
 
+    const [LCEGOList, setLCEGOList] = useState(JSON.stringify([]))
+    
     useLCCanvasFill(canvasRef, LCFillBlack);
 
     const gameMode3Answer = 'ryoshu'
@@ -27,8 +26,14 @@ const LCGameMode3Menu = () => {
     const [EGO , setEGO] = useState('chose the right EGO')
     const [userAnswer, setUserAnswer] = useState('')
     const [LCSelectVisible , setLCSelectVisible ] = useState(false)
-    let LCEGOList = [];
-    console.log(localStorage)
+
+
+
+    let data =  fetch('/api/gm3')
+    .then(response => response.json()).then(response => setLCEGOList(JSON.stringify(response)));
+
+
+
     function canvasClear(){
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
@@ -164,7 +169,7 @@ return(
                                             console.log('YES')
                                         }}}
                 defaultValue = {EGO}
-                options = {LCEGOList}
+                options = {JSON.parse(LCEGOList)}
                 visible = {LCSelectVisible}
             />
 

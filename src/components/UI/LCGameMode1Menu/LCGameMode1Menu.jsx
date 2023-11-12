@@ -28,6 +28,12 @@ const LCGameMode1Menu = () => {
     const [userAnswer, setUserAnswer] = useState('')
     const [LCSelectVisible , setLCSelectVisible ] = useState(false)
 
+    const [identityList, setIdentityList] = useState(JSON.stringify([]))
+
+
+    let data =  fetch('/api/gm1')
+    .then(response => response.json()).then(response => setIdentityList(JSON.stringify(response)));
+
 
     function canvasClear(){
         const canvas = canvasRef.current;
@@ -139,6 +145,7 @@ return(
                                                 localStorage.setItem('gameMode1XArr' , xArr.join(' '));
                                                 localStorage.setItem('gameMode1YArr' , yArr.join(' '));
                                                 localStorage.setItem('GameMode1Answer', JSON.stringify(true))
+                                                setLCSelectVisible(true)
 
                                             }
                                             else {
@@ -159,7 +166,7 @@ return(
                                                 console.log('YES')
                                             }}}
                     defaultValue = {identity}
-                    // options = {LCEGOList}
+                    options = {JSON.parse(identityList)}
                     visible = {LCSelectVisible}
             />
 
