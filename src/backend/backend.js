@@ -7,16 +7,28 @@ const __dirname = path.resolve()
 const PORT  = 3001
 
 const app = express()
+// можно обращаться к файлам и каталогам которые находятся в backend/piblic
 
+app.use(express.static(path.join(__dirname , 'public')))
+
+
+// простые запросы по ссылке
 app.get('/api/gm3' , (request, response) => {
-
-    response.send(LCEGOList)
+    try {
+        response.send(LCEGOList)
+    } catch (e) {
+        response.status(500).json(e)
+    }
 } )
 
 
-app.get('/api/gm1' , (request, response) => {
 
-    response.send(gameMode1Select)
+app.get('/api/gm1' , (request, response) => {
+    try {
+        response.send(gameMode1Select)
+    } catch (e) {
+        response.status(500).json(e)
+    }
 } )
 
 
@@ -24,3 +36,6 @@ app.listen(PORT , () => {
     
     console.log("working on " + PORT);
 });
+
+
+console.log(__dirname)

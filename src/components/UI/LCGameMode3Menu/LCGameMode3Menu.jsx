@@ -10,6 +10,7 @@ import { LCCanvasClear } from "../../LCCanvasClear";
 import {LCAnswerCheck} from "../../LCAnswerCheck";
 import LCSelect from "../LCSelect/LCSelect";
 
+
 const LCGameMode3Menu = () => {
 
     
@@ -124,17 +125,23 @@ const LCGameMode3Menu = () => {
     }, 
     20);
 
-
-
-
-
+    const [imgLink, setImageLink] =useState(require("../../../images/ImageForGameMode3/Ebony_Stem_Outis.webp"))
 
 return(
     <form>
         <div className={classes.LCGameModeBorder}>
             
 
-            <LCCanvas ref = {canvasRef} className={classes.LCEGO}/>
+            {/* <img src={require(`../../../images/ImageForGameMode3/${imgLink}`)} alt='123'/> */}
+            
+
+            <LCCanvas 
+            ref = {canvasRef} 
+            className={classes.LCEGO}
+            style={{ 
+                backgroundImage: `url("${imgLink}")` 
+            }}
+            />
             
             <LCInput
             type = 'text' 
@@ -144,6 +151,7 @@ return(
             
             <LCButton onClick = {(e) => 
                                         {e.preventDefault();
+                                            console.log(localStorage.getItem(LCEGOList))
                                             if (LCAnswerCheck(userAnswer, gameMode3Answer)) {
                                                 canvasClear()
                                                 localStorage.setItem('gameMode3XArr' , xArr.join(' '));
