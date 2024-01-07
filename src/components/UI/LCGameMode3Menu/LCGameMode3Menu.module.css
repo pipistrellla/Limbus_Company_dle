@@ -6,7 +6,7 @@
     justify-content: flex-start;
     border: 4px dotted burlywood;
     border-radius: 12px;
-    height: 750px;
+    min-height: 750px;
     flex-direction: column;
 }
 
