@@ -24,6 +24,7 @@ const LCGameMode3Menu = () => {
     const [EGO , setEGO] = useState('chose the right EGO')
     const [userAnswer, setUserAnswer] = useState('')
     const [LCSelectVisible , setLCSelectVisible ] = useState(false)
+    const [LCNextImageVisible, setLCNextImageVisible] = useState(false)
 
     const [gameMode3Answer, setGameMode3Answer] =  useState('ryoshu')
 
@@ -51,6 +52,18 @@ const LCGameMode3Menu = () => {
         setGameMode3EGOAnswer((JSON.parse(LCEGOList))[position].name);
         setImageLink('');
         setImageLink(require(`../../../images/ImageForGameMode3/${(JSON.parse(LCEGOList))[position].pathToImage}`));
+    }
+
+
+    function nextImageShow(canvasRef) { 
+        const canvas = canvasRef.current;
+        const context = canvas.getContext('2d');
+        LCFillBlack(context)
+        xArr = []
+        yArr= []
+        localStorage.removeItem('gameMode3XArr')
+        localStorage.removeItem('gameMode3YArr')
+
     }
 
     const clearRect = 50;
@@ -81,8 +94,9 @@ const LCGameMode3Menu = () => {
     // очищаем первый кусок, если это 1 попытка
 
     if (localStorage.getItem('gameMode3XArr') === null) {
-        localStorage.setItem('gameMode3XArr' , `${clearRect}`);
-        localStorage.setItem('gameMode3YArr' , `${clearRect}`);
+        localStorage.setItem('gameMode3XArr' , 10000);
+        localStorage.setItem('gameMode3YArr' , 10000);
+
     }
 
     let xArr = [];
@@ -116,9 +130,9 @@ const LCGameMode3Menu = () => {
         
         
         // очищаем холст и показываем select, если был дан верный ответ
-        for (let i = 0; i < xArr.length; i+=1  ){
-            LCUndraw(canvasRef.current.getContext('2d'),xArr[i],yArr[i],clearRect)
-        }
+        // for (let i = 0; i < xArr.length; i+=1  ){
+        //     LCUndraw(canvasRef.current.getContext('2d'),xArr[i],yArr[i],clearRect)
+        // }
         
         if (localStorage.getItem('GameMode3Answer') === null) {
             setLCSelectVisible(false)
@@ -129,7 +143,9 @@ const LCGameMode3Menu = () => {
 
 
         if (JSON.parse(localStorage.getItem('GameMode3EGOAnswer')) === true) {
-            console.log('ERA')
+            setLCNextImageVisible(true)
+        } else {
+            setLCNextImageVisible(false)
         }
 
     });
@@ -138,12 +154,18 @@ const LCGameMode3Menu = () => {
     useEffect(() => {
         if (LCEGOList !== '[]')
         {
-            let item = (JSON.parse(LCEGOList))  
-            item = item[0]
-            setGameMode3Answer(item.characterName);
-            setGameMode3EGOAnswer(item.name);
-            setImageLink('');
-            setImageLink(require(`../../../images/ImageForGameMode3/${item.pathToImage}`));
+            // рендоманая генерация 1 картинки
+            answerSet(LCRandomTask(JSON.parse(LCEGOList)));
+            localStorage.removeItem('GameMode3EGOAnswer')
+            localStorage.removeItem('GameMode3Answer')
+
+            // статичная генерация
+            // let item = (JSON.parse(LCEGOList))  
+            // item = item[0]
+            // setGameMode3Answer(item.characterName);
+            // setGameMode3EGOAnswer(item.name);
+            // setImageLink('');
+            // setImageLink(require(`../../../images/ImageForGameMode3/${item.pathToImage}`));
 
         }
 
@@ -197,6 +219,7 @@ return(
                                     {
                                         localStorage.setItem('GameMode3EGOAnswer' , JSON.stringify(true));
                                         console.log('YES')
+                                        setLCNextImageVisible(true)
                                     }}}
                 defaultValue = {EGO}
                 options = {JSON.parse(LCEGOList)}
@@ -204,9 +227,16 @@ return(
             />
 
             <LCButton
+            visible = {LCNextImageVisible}
             onClick= {(e)=> 
                 {e.preventDefault(); 
                     answerSet(LCRandomTask(JSON.parse(LCEGOList)));
+                    nextImageShow(canvasRef)
+                    setLCSelectVisible(false)
+                    setLCNextImageVisible(false)
+                    localStorage.removeItem('GameMode3EGOAnswer')
+                    localStorage.removeItem('GameMode3Answer')
+
                 }}>
 
                 next image
