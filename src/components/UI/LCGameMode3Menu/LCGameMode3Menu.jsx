@@ -180,12 +180,11 @@ return(
             
 
             <LCCanvas 
-            ref = {canvasRef} 
-            className={classes.LCEGO}
-            style={{ 
-                backgroundImage: `url("${imgLink}")` 
-            }}
-            />
+                ref = {canvasRef} 
+                className={classes.LCEGO}
+                style={{ 
+                    backgroundImage: `url("${imgLink}")` 
+            }}/>
             
             <LCInput
             type = 'text' 

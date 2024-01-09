@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import classes from './LCGameMode1Menu.module.css';
 import LCInput from "../LCInput/LCInput";
 import LCButton from '../LCButton/LCButton'
@@ -9,8 +9,7 @@ import { LCUndraw } from "../../LCUndraw";
 import { LCAnswerCheck } from "../../LCAnswerCheck";
 import { LCCanvasClear } from "../../LCCanvasClear";
 import LCSelect from "../LCSelect/LCSelect";
-
-
+import { LCRandomTask } from "../../LCRandomTask";
 
 
 
@@ -21,19 +20,34 @@ const LCGameMode1Menu = () => {
 
     useLCCanvasFill(canvasRef, LCFillBlack);
 
-    const gameMode1Answer = 'ryoshu'
-    const gameMode1IdentityAnswer = 'W Corp. L3 Cleanup Agent Ry3F Full'
+    const [gameMode1Answer,setGameModeAnswer] = useState('ryoshu')
+    const [gameMode1IdentityAnswer, setGameMode1IdentityAnswer,] = useState('W Corp. L3 Cleanup Agent Ry3F Full')
 
     const [identity , setIdentity] = useState('chose the right Identity')
     const [userAnswer, setUserAnswer] = useState('')
     const [LCSelectVisible , setLCSelectVisible ] = useState(false)
+    const [LCNextImageVisible, setLCNextImageVisible] = useState(false)
+
 
     const [identityList, setIdentityList] = useState(JSON.stringify([]))
 
+    function answerSet(position){
+        setGameModeAnswer((JSON.parse(identityList))[position].characterName);
+        setGameMode1IdentityAnswer((JSON.parse(identityList))[position].name);
+        setImageLink('');
+        setImageLink(require(`../../../images/imageForGameMode1/${(JSON.parse(identityList))[position].pathToImage}`));
+    }
 
-    let data =  fetch('/api/gm1')
-    .then(response => response.json()).then(response => setIdentityList(JSON.stringify(response)));
+    function nextImageShow(canvasRef) { 
+        const canvas = canvasRef.current;
+        const context = canvas.getContext('2d');
+        LCFillBlack(context)
+        xArr = []
+        yArr= []
+        localStorage.removeItem('gameMode3XArr')
+        localStorage.removeItem('gameMode3YArr')
 
+    }
 
     function canvasClear(){
         const canvas = canvasRef.current;
@@ -80,10 +94,9 @@ const LCGameMode1Menu = () => {
     let xArr = [];
     let yArr = [];
     if (localStorage.getItem('gameMode1XArr') === null) {
-        localStorage.setItem('gameMode1XArr' , `${clearRect}`);
-        localStorage.setItem('gameMode1YArr' , `${clearRect}`);
+        localStorage.setItem('gameMode1XArr' , 10000);
+        localStorage.setItem('gameMode1YArr' , 10000);
     }
-
 
 
     let xArrLocal = localStorage.getItem('gameMode1XArr').split(' ')
@@ -99,28 +112,57 @@ const LCGameMode1Menu = () => {
     }
 
 
+    const [imgLink, setImageLink] = useState(require("../../../images/imageForGameMode1/W_Corp__Cleanup_Agent_Ry_.png"))
 
-    setTimeout(() => {
-        
-        for (let i = 0; i < xArr.length; i+=1  ) {
-            LCUndraw(canvasRef.current.getContext('2d'),xArr[i],yArr[i],clearRect);
-        }
+    useEffect(() => {
+        // делаем запрос и добавляепм список всех identity 
+        fetch('/api/gm1')
+        .then(response => response.json())
+        .then(response => setIdentityList(JSON.stringify(response)));
+
+        // очищаем холст и показываем select, если был дан верный ответ
+        // for (let i = 0; i < xArr.length; i+=1  ) {
+        //     LCUndraw(canvasRef.current.getContext('2d'),xArr[i],yArr[i],clearRect);
+        // }
 
         if (localStorage.getItem('GameMode1Answer') === null) {
             setLCSelectVisible(false)
             
-        }
-        else {
+        } else {
             setLCSelectVisible(true)
         }
 
 
         if (JSON.parse(localStorage.getItem('GameMode1IdentityAnswer')) === true) {
-            console.log('ERA')
+            setLCNextImageVisible(true)
+        } else {
+            setLCNextImageVisible(false)
         }
-    }, 
-    
-    20);
+
+    });
+
+    useEffect(() => { 
+        if (identityList !== '[]')
+        {
+            // рендоманая генерация 1 картинки
+            answerSet(LCRandomTask(JSON.parse(identityList)));
+            localStorage.removeItem('GameMode3EGOAnswer')
+            localStorage.removeItem('GameMode3Answer')
+
+            // статичная генерация
+            // let item = (JSON.parse(identityList))  
+            // item = item[0]
+            // setGameMode3Answer(item.characterName);
+            // setGameMode3EGOAnswer(item.name);
+            // setImageLink('');
+            // setImageLink(require(`../../../images/ImageForGameMode3/${item.pathToImage}`));
+        
+    }
+
+    }, [identityList])
+
+
+
 
 
 
@@ -129,7 +171,12 @@ return(
     <form  >
         <div className={classes.LCGameModeBorder}>
 
-                <LCCanvas ref ={canvasRef} className={classes.LCGameModePicture} />
+                <LCCanvas 
+                    ref ={canvasRef} 
+                    className={classes.LCGameModePicture} 
+                    style={{ 
+                        backgroundImage: `url("${imgLink}")` 
+                }}/>
 
 
 
@@ -164,11 +211,29 @@ return(
                                             {
                                                 localStorage.setItem('GameMode1IdentityAnswer' , JSON.stringify(true));
                                                 console.log('YES')
+                                                setLCNextImageVisible(true)
                                             }}}
                     defaultValue = {identity}
                     options = {JSON.parse(identityList)}
                     visible = {LCSelectVisible}
-            />
+                />
+
+                <LCButton
+                    visible = {LCNextImageVisible}
+                    onClick= {(e)=> 
+                        {e.preventDefault(); 
+                            answerSet(LCRandomTask(JSON.parse(identityList)));
+                            nextImageShow(canvasRef)
+                            setLCSelectVisible(false)
+                            setLCNextImageVisible(false)
+                            localStorage.removeItem('GameMode1IdentityAnswer')
+                            localStorage.removeItem('GameMode1Answer')
+                            setUserAnswer('')
+
+                }}>
+
+                next image
+            </LCButton>
 
 
 
