@@ -17,7 +17,7 @@ const LCSelect = ({options , defaultValue, value, onChange , visible}) => {
             >
                 <option disabled = {true} value ={defaultValue} > {defaultValue} </option>
                 {options.map(option =>
-                <option  key = {option.value} value={option.value}> {option.name} </option>)}
+                <option  key = {option.name} value={option.name}> {option.name} </option>)}
             </select>
         </div>
     )

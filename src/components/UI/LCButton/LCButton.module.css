@@ -6,7 +6,12 @@
     background-color: rgba(0, 0, 0,  0.6);
     border: 2px solid burlywood ;
     cursor: pointer; 
-    
+    display: flex;
+    justify-content: center;
+}
+
+.LCButton.hide{
+    display: none;
 }
 
 .LCButton:hover

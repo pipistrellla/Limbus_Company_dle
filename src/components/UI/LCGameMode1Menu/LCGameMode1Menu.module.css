@@ -6,7 +6,7 @@
     justify-content: flex-start;
     border: 4px dotted burlywood;
     border-radius: 12px;
-    height: 700px;
+    min-height: 700px;
     flex-direction: column;
 }
 
@@ -14,13 +14,14 @@
 
 .LCGameModePicture {
     margin: 24px 0 24px 0;
+    padding: 20px;
     display: flex;
     align-items:flex-start;
     justify-content: center;
     border: 4px solid burlywood;
     height: 70%;
     width: 90%;    
-    background-image: url('../../../images//imageForGameMode1/W_Corp__Cleanup_Agent_Ry_.png');
+    /* background-image: url('../../../images/imageForGameMode1/W_Corp__Cleanup_Agent_Ry_.png'); */
     background-size: cover ;
     background-repeat: no-repeat;
 }

@@ -1,4 +1,4 @@
-import React , {useRef, useState} from "react";
+import React , {useEffect, useRef, useState} from "react";
 import classes from './LCGameMode3Menu.module.css';
 import LCInput from "../LCInput/LCInput";
 import LCButton from '../LCButton/LCButton'
@@ -9,6 +9,8 @@ import { useLCCanvasFill} from "../../hook/useLCCanvas";
 import { LCCanvasClear } from "../../LCCanvasClear";
 import {LCAnswerCheck} from "../../LCAnswerCheck";
 import LCSelect from "../LCSelect/LCSelect";
+import { LCRandomTask } from "../../LCRandomTask";
+
 
 const LCGameMode3Menu = () => {
 
@@ -19,19 +21,14 @@ const LCGameMode3Menu = () => {
     
     useLCCanvasFill(canvasRef, LCFillBlack);
 
-    const gameMode3Answer = 'ryoshu'
-
-    const gameMode3EGOAnswer = 'forest for the flames'
-
     const [EGO , setEGO] = useState('chose the right EGO')
     const [userAnswer, setUserAnswer] = useState('')
     const [LCSelectVisible , setLCSelectVisible ] = useState(false)
+    const [LCNextImageVisible, setLCNextImageVisible] = useState(false)
 
+    const [gameMode3Answer, setGameMode3Answer] =  useState('ryoshu')
 
-
-    let data =  fetch('/api/gm3')
-    .then(response => response.json()).then(response => setLCEGOList(JSON.stringify(response)));
-
+    const [gameMode3EGOAnswer, setGameMode3EGOAnswer] = useState('forest for the flames ryoshu')
 
 
     function canvasClear(){
@@ -50,6 +47,24 @@ const LCGameMode3Menu = () => {
         LCCanvasClear(context);
     }
 
+    function answerSet(position){
+        setGameMode3Answer((JSON.parse(LCEGOList))[position].characterName);
+        setGameMode3EGOAnswer((JSON.parse(LCEGOList))[position].name);
+        setImageLink('');
+        setImageLink(require(`../../../images/ImageForGameMode3/${(JSON.parse(LCEGOList))[position].pathToImage}`));
+    }
+
+
+    function nextImageShow(canvasRef) { 
+        const canvas = canvasRef.current;
+        const context = canvas.getContext('2d');
+        LCFillBlack(context)
+        xArr = []
+        yArr= []
+        localStorage.removeItem('gameMode3XArr')
+        localStorage.removeItem('gameMode3YArr')
+
+    }
 
     const clearRect = 50;
 
@@ -65,7 +80,7 @@ const LCGameMode3Menu = () => {
             
             if ((xArr[i] === x) && (yArr[i]===y)){
                 if (xArr.length > 18)
-                    {break}
+                    break
                 return UnDraw(xArr, yArr);
             }
         }
@@ -76,19 +91,19 @@ const LCGameMode3Menu = () => {
         LCUndraw(context,x,y,clearRect);
     }
 
+    // очищаем первый кусок, если это 1 попытка
 
     if (localStorage.getItem('gameMode3XArr') === null) {
-        localStorage.setItem('gameMode3XArr' , `${clearRect}`);
-        localStorage.setItem('gameMode3YArr' , `${clearRect}`);
+        localStorage.setItem('gameMode3XArr' , 10000);
+        localStorage.setItem('gameMode3YArr' , 10000);
+
     }
 
     let xArr = [];
     let yArr = [];
 
 
-
     let xArrLocal = localStorage.getItem('gameMode3XArr').split(' ')
-
 
     for (let i = 0; i < xArrLocal.length ; i+=1){
         xArr.push(+xArrLocal[i]);
@@ -97,44 +112,79 @@ const LCGameMode3Menu = () => {
 
     let yArrLocal = localStorage.getItem('gameMode3YArr').split(' ')
 
-
     for (let i = 0; i < yArrLocal.length ; i+=1){
         yArr.push(+yArrLocal[i]);
     }
 
 
-    setTimeout(() => {
+
+    const [imgLink, setImageLink] = useState(require("../../../images/ImageForGameMode3/Ebony_Stem_Outis.webp"))
+    // при монтировании компонента делаем запрос и выполнем очиску холста, если был дан ответ
+
+    useEffect(()=> {
+        // делаем запрос и добавляепм список всех EGO 
+        fetch('/api/gm3')
+        .then(response => response.json())
+        .then(response => setLCEGOList(JSON.stringify(response)));
+
         
-        for (let i = 0; i < xArr.length; i+=1  ){
-            LCUndraw(canvasRef.current.getContext('2d'),xArr[i],yArr[i],clearRect)
-        }
+        
+        // очищаем холст и показываем select, если был дан верный ответ
+        // for (let i = 0; i < xArr.length; i+=1  ){
+        //     LCUndraw(canvasRef.current.getContext('2d'),xArr[i],yArr[i],clearRect)
+        // }
         
         if (localStorage.getItem('GameMode3Answer') === null) {
             setLCSelectVisible(false)
             
-        }
-        else {
+        } else {
             setLCSelectVisible(true)
         }
 
 
         if (JSON.parse(localStorage.getItem('GameMode3EGOAnswer')) === true) {
-            console.log('ERA')
+            setLCNextImageVisible(true)
+        } else {
+            setLCNextImageVisible(false)
         }
-    }, 
-    20);
+
+    });
 
 
+    useEffect(() => {
+        if (LCEGOList !== '[]')
+        {
+            // рендоманая генерация 1 картинки
+            answerSet(LCRandomTask(JSON.parse(LCEGOList)));
+            localStorage.removeItem('GameMode3EGOAnswer')
+            localStorage.removeItem('GameMode3Answer')
+
+            // статичная генерация
+            // let item = (JSON.parse(LCEGOList))  
+            // item = item[0]
+            // setGameMode3Answer(item.characterName);
+            // setGameMode3EGOAnswer(item.name);
+            // setImageLink('');
+            // setImageLink(require(`../../../images/ImageForGameMode3/${item.pathToImage}`));
+
+        }
 
 
-
+    }, [LCEGOList] )
 
 return(
     <form>
         <div className={classes.LCGameModeBorder}>
             
 
-            <LCCanvas ref = {canvasRef} className={classes.LCEGO}/>
+            
+
+            <LCCanvas 
+                ref = {canvasRef} 
+                className={classes.LCEGO}
+                style={{ 
+                    backgroundImage: `url("${imgLink}")` 
+            }}/>
             
             <LCInput
             type = 'text' 
@@ -144,6 +194,7 @@ return(
             
             <LCButton onClick = {(e) => 
                                         {e.preventDefault();
+                                            console.log(localStorage.getItem(LCEGOList))
                                             if (LCAnswerCheck(userAnswer, gameMode3Answer)) {
                                                 canvasClear()
                                                 localStorage.setItem('gameMode3XArr' , xArr.join(' '));
@@ -163,16 +214,32 @@ return(
             <LCSelect
                 value = {EGO}
                 onChange= { value => {setEGO(value);
-                                    if (LCAnswerCheck(value , gameMode3EGOAnswer) )
-                                        {
-                                            localStorage.setItem('GameMode3EGOAnswer' , JSON.stringify(true));
-                                            console.log('YES')
-                                        }}}
+                                if (LCAnswerCheck(value , gameMode3EGOAnswer) )
+                                    {
+                                        localStorage.setItem('GameMode3EGOAnswer' , JSON.stringify(true));
+                                        console.log('YES')
+                                        setLCNextImageVisible(true)
+                                    }}}
                 defaultValue = {EGO}
                 options = {JSON.parse(LCEGOList)}
                 visible = {LCSelectVisible}
             />
 
+            <LCButton
+            visible = {LCNextImageVisible}
+            onClick= {(e)=> 
+                {e.preventDefault(); 
+                    answerSet(LCRandomTask(JSON.parse(LCEGOList)));
+                    nextImageShow(canvasRef)
+                    setLCSelectVisible(false)
+                    setLCNextImageVisible(false)
+                    localStorage.removeItem('GameMode3EGOAnswer')
+                    localStorage.removeItem('GameMode3Answer')
+
+                }}>
+
+                next image
+            </LCButton>
 
 
         </div>
