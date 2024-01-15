@@ -1,6 +1,6 @@
 import express from 'express'; 
 import path from 'path';
-import { LCEGOList , gameMode1Select } from './LCDirectoryFileNameReader.cjs';
+import { LCEGOList , gameMode1Select, gameMode2Data } from './LCDirectoryFileNameReader.cjs';
 
 
 const __dirname = path.resolve()
@@ -26,6 +26,14 @@ app.get('/api/gm3' , (request, response) => {
 app.get('/api/gm1' , (request, response) => {
     try {
         response.send(gameMode1Select)
+    } catch (e) {
+        response.status(500).json(e)
+    }
+} )
+
+app.get('/api/gm2' , (request, response) => {
+    try {
+        response.send(gameMode2Data)
     } catch (e) {
         response.status(500).json(e)
     }
