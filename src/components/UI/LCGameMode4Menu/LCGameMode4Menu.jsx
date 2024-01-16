@@ -35,28 +35,8 @@ const LCGameMode4Menu = () => {
 
 
     function showAllEmoji() {
-        let emojiGuessArrShowed = []
-        // в случая ошибки, чтобы сайт не падал
-        let n = 0;
-        while (emojiGuessArrShowed.length < emojiGuessArr.length) {
-
-            if (JSON.parse(localStorage.getItem('gameMode4')).length === 1 ){
-                emojiGuessArrShowed = (JSON.parse(localStorage.getItem('gameMode4'))).split()
-            }
-            else {
-                emojiGuessArrShowed = (JSON.parse(localStorage.getItem('gameMode4')))
-            }
-
-            
-            emojiGuessArrShowed.push(emojiGuessArr[emojiGuessArrShowed.length].toString());
-            localStorage.setItem('gameMode4' , JSON.stringify(emojiGuessArrShowed));
-            n+=1
-            if (n > 10 ){
-                break
-            }
-        }
-
-        setEmojiGuessShowed(JSON.parse(localStorage.getItem('gameMode4')));
+        setEmojiGuessShowed(emojiGuess);
+        localStorage.setItem('gameMode4' , JSON.stringify(emojiGuess));
     }
 
 
