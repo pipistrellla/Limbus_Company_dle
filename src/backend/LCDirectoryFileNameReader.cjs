@@ -33,14 +33,40 @@ const PictureObjectCreator = (pathTo , characters) =>  {
         return('error')
     }
 }
+// функция сортировки массива файлов по времени
+
+const getSortedFiles = (dir) => {
+    // считываем файлы в каталоге и сортируем по времени создания
+    try{
+        const files = fs.readdirSync(dir);
+        return files
+            .map(fileName => ({
+                name: fileName,
+                time: fs.statSync(`${dir}/${fileName}`).mtime.getTime(),
+            }))
+            .sort((a, b) => a.time - b.time)
+            .map(file => file.name);
+    }
+    catch (e) {
+        console.log(e)
+    }
+};
+
+
 
 
 const PictureObjectCreatorForGameMode2  = (pathTo, characters) => {
     try {
         let arrayOut = []
-        let allFiles = fs.readdirSync(pathTo);
+        // let allFiles = fs.readdirSync(pathTo);
+        let allFiles = getSortedFiles(pathTo)
+
         let pathToImage = []
         let characterName
+
+        for (let i = 0 ; i < (allFiles.length-4) ; i+=4){ 
+
+        }
 
         for (let i = 0 ; i < (allFiles.length-4) ; i+=4){ 
 
@@ -50,16 +76,22 @@ const PictureObjectCreatorForGameMode2  = (pathTo, characters) => {
             }
 
             for (const j of characters ){
-                if (allFiles[i].indexOf(j) > -1)
+                if (allFiles[i].split('_').join(' ').indexOf(j) > -1)
                 {
                     
                     characterName = (j === 'Ry3F') ? 'Ryoshu' : j;
-                    
                     break
+                    // просто потомучто я не уверен, что в будущем все скилы Ryoshu будуьт писаться с ее именем, без разных знаков в нем
+                } else {
+                    characterName = (allFiles[i].split('_').join(' ').indexOf('Ryoshu')) ? 'Ryoshu' : j
                 }}
 
             arrayOut[i/4] = {characterName: characterName, pathToImage: [`${pathToImage[i]}.webp`,`${pathToImage[i+1]}.webp`,`${pathToImage[i+2]}.webp`,`${pathToImage[i+3]}.webp`],}
+
         }
+        
+
+
         return arrayOut
         
     } catch(e) {

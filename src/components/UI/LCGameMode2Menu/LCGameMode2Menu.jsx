@@ -71,10 +71,10 @@ const LCGameMode2Menu = () => {
 
                 console.log(gameMode2Data)
                 setImageLink('')
-                setImageLink([require(`../../../images/ImageForGameMode2/${(JSON.parse(gameMode2Data))[0].pathToImage[0]}`),
-                require(`../../../images/ImageForGameMode2/${(JSON.parse(gameMode2Data))[0].pathToImage[1]}`),
-                require(`../../../images/ImageForGameMode2/${(JSON.parse(gameMode2Data))[0].pathToImage[2]}`),
-                require(`../../../images/ImageForGameMode2/${(JSON.parse(gameMode2Data))[0].pathToImage[3]}`)]);
+                setImageLink([require(`../../../images/ImageForGameMode2/${(JSON.parse(gameMode2Data))[1].pathToImage[0]}`),
+                require(`../../../images/ImageForGameMode2/${(JSON.parse(gameMode2Data))[1].pathToImage[1]}`),
+                require(`../../../images/ImageForGameMode2/${(JSON.parse(gameMode2Data))[1].pathToImage[2]}`),
+                require(`../../../images/ImageForGameMode2/${(JSON.parse(gameMode2Data))[1].pathToImage[3]}`)]);
                 setGameMode2Answer(JSON.parse(gameMode2Data)[0].characterName)
     
                 // статичная генерация
