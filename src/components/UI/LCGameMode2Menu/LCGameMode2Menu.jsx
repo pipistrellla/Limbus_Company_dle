@@ -1,58 +1,53 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useEffect} from "react";
 import classes from './LCGameMode2Menu.module.css';
 import LCInput from "../LCInput/LCInput";
 import LCButton from '../LCButton/LCButton'
 import LCCanvas from "../LCCanvas/LCCanvas";
-import { useLCCanvasFill } from "../../hook/useLCCanvas";
-import { LCFillBlack } from "../../LCFillBlack";
-import {LCCanvasClear} from '../../LCCanvasClear';
 import { LCAnswerCheck } from "../../LCAnswerCheck";
-
+import { LCRandomTask } from "../../LCRandomTask";
 
 
 const LCGameMode2Menu = () => {
     const [userAnswer, setUserAnswer] = useState('');
+    const [imgLink, setImageLink] = useState([require('../../../images/ImageForGameMode2/Acupuncture_Outis_Icon.webp')])
+    const [gameMode2Data, setGameMode2Data] = useState('[]')
+    const [gameMode2Answer, setGameMode2Answer] = useState('Outis')
+    const [attempNumber, setAttempNumber] = useState(1)
+    const [nextImageVisible, setNextImageVisible] = useState(false)
 
-    const canvasRefPassive = useRef();
-    const canvasRefSupport = useRef();
+    function answerSet(position){
+        setImageLink('')
+        let tempArr = JSON.parse(gameMode2Data)[position].pathToImage
+        // присваиваем картинки
+        tempArr = tempArr.map(item => require(`../../../images/ImageForGameMode2/${item}`))
+        setImageLink(tempArr)
+        setGameMode2Answer(JSON.parse(gameMode2Data)[position].characterName)
 
-    useLCCanvasFill(canvasRefPassive, LCFillBlack);
-    useLCCanvasFill(canvasRefSupport, LCFillBlack);
-
-    const gameMode2Answer = 'ryoshu'
-
-    function canvasClearPassive(){
-        const canvas = canvasRefPassive.current;
-        const context = canvas.getContext('2d');
-        LCCanvasClear(context);
     }
 
-    function canvasClearSupport(){
-        const canvas = canvasRefSupport.current;
-        const context = canvas.getContext('2d');
-        LCCanvasClear(context);
-    }
 
-    if (localStorage.getItem('gameMode2Passive') === null) {
-        localStorage.setItem('gameMode2Passive' , JSON.stringify(false));
-    }
+    useEffect( () => {
+        // делаем запрос и добавляепм список всех identity 
+        fetch('/api/gm2')
+        .then(response => response.json())
+        .then(response => setGameMode2Data(JSON.stringify(response)));
+        }, 
 
-    if (localStorage.getItem('gameMode2Support') === null) {
-        localStorage.setItem('gameMode2Support' , 'false');
-    }
+        []);
+    
+    useEffect(() => { 
+        if (gameMode2Data !== '[]')
+        {
+            // рендоманая генерация 1 картинки
 
-    setTimeout(() => {
+            answerSet(LCRandomTask(JSON.parse(gameMode2Data)));
+            
+    }
+    
+    }, [gameMode2Data])
         
-        if (JSON.parse(localStorage.getItem('gameMode2Support')) === true)
-        {
-            canvasClearSupport();
-        }
-        if (JSON.parse(localStorage.getItem('gameMode2Passive')) === true)
-        {
-            canvasClearPassive();
-        }}, 
+        
 
-    400);
 
 
 return(
@@ -61,16 +56,24 @@ return(
             
             
             <div className={classes.LCFirstLine}>
-                <LCCanvas ref ={canvasRefSupport} className={classes.LCSupport} />
-                <LCCanvas ref ={canvasRefPassive} className={classes.LCPassive} />
+                {imgLink.map((item)=>
+                <LCCanvas
+                    className={classes.LCSkill} 
+                    key = {item}
+                    style={{ 
+                        backgroundImage: (imgLink.indexOf(item) < attempNumber )? `url("${item}")` : `url("")`
+                }}>
+
+
+                </LCCanvas>)}
+
             </div>
 
 
             <div className={classes.LCSecondLine}>
 
-                <LCCanvas className={classes.LCSkill} />
                 <LCInput 
-                    style = {{minWidth: '500px' , height: '30%'}}
+                    style = {{minWidth: '500px' , height: '40%'}}
                     type = 'text' 
                     name = 'userAnswer'
                     placeholder = 'Enter LC character name' 
@@ -81,22 +84,24 @@ return(
                     onClick = {(e) => 
                         {e.preventDefault();
                             if (LCAnswerCheck(userAnswer, gameMode2Answer)) {
-                                canvasClearPassive()
-                                canvasClearSupport()
+                                setAttempNumber(4)
+                                setNextImageVisible(true)
                             }
                             else {
-                                canvasClearPassive()
-                                
-                                if (JSON.parse(localStorage.getItem('gameMode2Passive')) === true){
-                                    canvasClearSupport()
-                                    localStorage.setItem('gameMode2Support' , JSON.stringify(true));
-                                    
-                                }
-                                localStorage.setItem('gameMode2Passive' , JSON.stringify(true));
-                                
+                                setAttempNumber(attempNumber+1)
                             }
                         }
                     }> Confirm </LCButton>
+
+                <LCButton 
+                    visible={nextImageVisible}
+                    onClick = {(e) => 
+                        {e.preventDefault();
+                            setNextImageVisible(false)
+                            answerSet(LCRandomTask(JSON.parse(gameMode2Data)));
+                            setAttempNumber(1)
+                        }
+                    }> next Image </LCButton>
             </div>
 
 
