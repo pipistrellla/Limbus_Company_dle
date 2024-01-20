@@ -101,10 +101,22 @@ const PictureObjectCreatorForGameMode2  = (pathTo, characters) => {
 
 }
 
+const emojiObjectCreator = (pathTo) =>  {
+    try { 
+        let allEmoji = fs.readFileSync(pathTo, 'utf8', )
+        const tempData = allEmoji.split('\r\n')
+        return tempData
+    } catch(e) {
+        console.log(`error in emojiObjectCreator error: ${e}`  )
+        return('error')
+    }}
+
+
 
 let gameMode1Path = '../images/imageForGameMode1'
 let gameMode3Path = '../images/ImageForGameMode3'
 let gameMode2Path = '../images/ImageForGameMode2'
+let gameMode4Path = './gm4.txt'
 
 const characterNames = ['Don Quixot', 'Gregor' , 'Yi Sang', 'Outis', 'Heathcliff', 'Rodion','Meursault' , 'Ishmael','Hong Lu' ,'Ry3F' ,'Faust' , 'Sinclair' ]
 
@@ -112,11 +124,12 @@ const characterNames = ['Don Quixot', 'Gregor' , 'Yi Sang', 'Outis', 'Heathcliff
 const gameMode1Select = PictureObjectCreator(gameMode1Path , characterNames);
 const LCEGOList = PictureObjectCreator(gameMode3Path , characterNames);
 const gameMode2Data = PictureObjectCreatorForGameMode2(gameMode2Path, characterNames)
+const gameMode4Data = emojiObjectCreator(gameMode4Path)
 
 exports.LCEGOList = LCEGOList;
 exports.gameMode1Select = gameMode1Select;
 exports.gameMode2Data = gameMode2Data;
-
+exports.gameMode4Data = gameMode4Data;
 
 
 
