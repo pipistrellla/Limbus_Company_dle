@@ -14,18 +14,18 @@ trying to create something like loldle but LCdle. Just for practice and upgradin
 there are 4 gamemodes <br>
 
 - Guess character by picture <br>
- + After a wrong answer, another piece of the image is revealed. <br>
- + The select appears after the correct answer, where you need to specify a specific identity. <br>
- + Then u can try to guess next image <br>
+   + After a wrong answer, another piece of the image is revealed. <br>
+   + The select appears after the correct answer, where you need to specify a specific identity. <br>
+   + Then u can try to guess next image <br>
 - Guess Character by skill <br>
- + After a wrong answer, another skill is revealed. <br>
- + After a correct answer, you can guess the next identity by skills <br>
+   + After a wrong answer, another skill is revealed. <br>
+   + After a correct answer, you can guess the next identity by skills <br>
 - Guess character by Emoji <br>
- + After a wrong answer, another piece of the image is revealed. <br>
- + The select appears after the correct answer, where you need to specify a specific identity. <br>
- + Then u can try to guess next EGO <br>
+   + After a wrong answer, another piece of the image is revealed. <br>
+   + The select appears after the correct answer, where you need to specify a specific identity. <br>
+   + Then u can try to guess next EGO <br>
 - GUess EGO or Edintity by EGO pic <br>
- + After a wrong answer, another emoji is revealed. <br>
+   + After a wrong answer, another emoji is revealed. <br>
  
 ---
 - Need to create a list with the character's name | emojis description 
