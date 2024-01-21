@@ -18,3 +18,20 @@
 {
     scale: 110%;
 }
+
+@media screen and (max-width: 1200px) {
+
+    .LCButton{
+        font-size: 16px;
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+
+    .LCButton{
+        margin: 5px 7px 5px 7px;
+        padding: 22px 14px;
+    }
+
+}

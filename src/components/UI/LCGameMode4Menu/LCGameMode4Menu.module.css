@@ -13,6 +13,26 @@
 
 
 .LCEmoji {
-    font-size: 100px;
+    font-size: 90px;
     background-color: hsla(0, 46%, 35%, 0.709)
+}
+
+.LCSecondLine{
+    display: flex;
+    flex-direction: column ;
+    justify-content: center;
+}
+
+
+
+@media screen and (max-width: 600px) {
+    .LCEmoji {
+        font-size: 44px;
+    }
+
+    .LCGameModeBorder {
+        padding-top: 40px;
+        justify-content: start;
+        height: 300px;
+    }
 }

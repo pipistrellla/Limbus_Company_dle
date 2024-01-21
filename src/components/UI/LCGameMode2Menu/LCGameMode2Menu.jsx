@@ -73,7 +73,6 @@ return(
             <div className={classes.LCSecondLine}>
 
                 <LCInput 
-                    style = {{minWidth: '500px' , height: '40%'}}
                     type = 'text' 
                     name = 'userAnswer'
                     placeholder = 'Enter LC character name' 

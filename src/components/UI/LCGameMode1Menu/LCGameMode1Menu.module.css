@@ -25,3 +25,25 @@
     background-size: cover ;
     background-repeat: no-repeat;
 }
+
+
+@media screen and (max-width: 1200px) {
+
+    .LCGameModeBorder {
+        padding: 0px;
+        margin-top: 10px;
+        min-height: 400px;
+    }
+
+    .LCGameModePicture { 
+        margin: 12px 0 12px 0;
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .LCGameModePicture {
+        padding: 5px;
+    }
+
+}
