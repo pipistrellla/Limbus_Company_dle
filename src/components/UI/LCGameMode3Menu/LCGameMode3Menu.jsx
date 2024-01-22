@@ -66,7 +66,7 @@ const LCGameMode3Menu = () => {
 
     }
 
-    const clearRect = 50;
+    const clearRect = 75;
 
     function UnDraw (xArr , yArr) {
         const canvas = canvasRef.current
@@ -92,7 +92,7 @@ const LCGameMode3Menu = () => {
     }
 
     // очищаем первый кусок, если это 1 попытка
-
+    // в данном случае не очищаем ничего, так как остается место по периметру
     if (localStorage.getItem('gameMode3XArr') === null) {
         localStorage.setItem('gameMode3XArr' , 10000);
         localStorage.setItem('gameMode3YArr' , 10000);
@@ -156,9 +156,12 @@ const LCGameMode3Menu = () => {
         {
             // рендоманая генерация 1 картинки
             answerSet(LCRandomTask(JSON.parse(LCEGOList)));
+
+            // тут поменять если нужно будет запоминание
             localStorage.removeItem('GameMode3EGOAnswer')
             localStorage.removeItem('GameMode3Answer')
 
+            
             // статичная генерация
             // let item = (JSON.parse(LCEGOList))  
             // item = item[0]

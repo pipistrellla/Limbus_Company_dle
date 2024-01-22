@@ -10,7 +10,7 @@ const LCSelect = ({options , defaultValue, value, onChange , visible}) => {
     }
 
     return(
-        <div className={rootClass}>
+        <div className={rootClass.join(' ')}>
             <select
             value = {value}
             onChange = {event => onChange(event.target.value)}

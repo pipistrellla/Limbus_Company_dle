@@ -13,10 +13,8 @@ import { LCRandomTask } from "../../LCRandomTask";
 
 
 
-
 const LCGameMode1Menu = () => { 
     const canvasRef = useRef();
-
 
     useLCCanvasFill(canvasRef, LCFillBlack);
 
@@ -77,19 +75,17 @@ const LCGameMode1Menu = () => {
         for (let i = 0; i< xArr.length ; i++){
             
             if ((xArr[i] === x) && (yArr[i]===y)){
-                if (xArr.length > 74)
+                if (xArr.length > 12)
                         {break}
                 return UnDraw(xArr, yArr);
             }
         }
-        
         xArr.push(x);
         yArr.push(y);
-
         LCUndraw(context,x,y,clearRect);
     }
-
-    const clearRect = 25;
+// чтобы можно было угадать за кол-во персонажей
+    const clearRect = 75;
 
     let xArr = [];
     let yArr = [];
@@ -125,7 +121,7 @@ const LCGameMode1Menu = () => {
         //     LCUndraw(canvasRef.current.getContext('2d'),xArr[i],yArr[i],clearRect);
         // }
 
-        if (localStorage.getItem('GameMode1Answer') === null) {
+        if ((localStorage.getItem('GameMode1Answer') === null) ) {
             setLCSelectVisible(false)
             
         } else {
@@ -139,6 +135,7 @@ const LCGameMode1Menu = () => {
             setLCNextImageVisible(false)
         }
 
+        
     });
 
     useEffect(() => { 
@@ -146,8 +143,11 @@ const LCGameMode1Menu = () => {
         {
             // рендоманая генерация 1 картинки
             answerSet(LCRandomTask(JSON.parse(identityList)));
-            localStorage.removeItem('GameMode3EGOAnswer')
-            localStorage.removeItem('GameMode3Answer')
+
+            // тут поменять если нужно будет запоминание
+            localStorage.removeItem('GameMode1Answer')
+            localStorage.removeItem('GameMode1IdentityAnswer')
+
 
             // статичная генерация
             // let item = (JSON.parse(identityList))  
@@ -163,9 +163,28 @@ const LCGameMode1Menu = () => {
 
 
 
+    const LCGameModeBorderClasses = [classes.LCGameModePicture]
+    const [LCGameModeBorderClassesShake,setLCGameModeBorderClassesShake] = useState('next')
 
+    
+    if (LCGameModeBorderClassesShake === false){
+        LCGameModeBorderClasses.push(classes.wrong)
+    
+        setTimeout(()=> {LCGameModeBorderClasses.pop() ; setLCGameModeBorderClassesShake(' ')},400)
+    }
+    
+    if (LCGameModeBorderClassesShake === true){
+        LCGameModeBorderClasses.push(classes.true)
+    
+        setTimeout(()=> {LCGameModeBorderClasses.pop() ; setLCGameModeBorderClassesShake(' ')},400)
+    }
+    
 
-
+    if (LCGameModeBorderClassesShake === 'next'){
+        LCGameModeBorderClasses.push(classes.next)
+    
+        setTimeout(()=> {LCGameModeBorderClasses.pop() ; setLCGameModeBorderClassesShake(' ')},2000)
+    }
 
 return(
     <form  >
@@ -173,7 +192,7 @@ return(
 
                 <LCCanvas 
                     ref ={canvasRef} 
-                    className={classes.LCGameModePicture} 
+                    className={LCGameModeBorderClasses.join(' ')} 
                     style={{ 
                         backgroundImage: `url("${imgLink}")` 
                 }}/>
@@ -193,13 +212,16 @@ return(
                                                 localStorage.setItem('gameMode1YArr' , yArr.join(' '));
                                                 localStorage.setItem('GameMode1Answer', JSON.stringify(true))
                                                 setLCSelectVisible(true)
+                                                setLCGameModeBorderClassesShake(true)
 
                                             }
                                             else {
                                                 UnDraw(xArr,yArr)
                                                 localStorage.setItem('gameMode1XArr' , xArr.join(' '));
                                                 localStorage.setItem('gameMode1YArr' , yArr.join(' '));
+                                                setLCGameModeBorderClassesShake(false)
                                             }
+                                            
                                         }
                                     }> Confirm 
                 </LCButton>
@@ -212,7 +234,10 @@ return(
                                                 localStorage.setItem('GameMode1IdentityAnswer' , JSON.stringify(true));
                                                 console.log('YES')
                                                 setLCNextImageVisible(true)
-                                            }}}
+                                                setLCGameModeBorderClassesShake(true)
+                                            }
+                                        else 
+                                            setLCGameModeBorderClassesShake(false)}}
                     defaultValue = {identity}
                     options = {JSON.parse(identityList)}
                     visible = {LCSelectVisible}
@@ -221,14 +246,18 @@ return(
                 <LCButton
                     visible = {LCNextImageVisible}
                     onClick= {(e)=> 
-                        {e.preventDefault(); 
+                        {e.preventDefault();
+                            setLCGameModeBorderClassesShake('next') 
                             answerSet(LCRandomTask(JSON.parse(identityList)));
                             nextImageShow(canvasRef)
                             setLCSelectVisible(false)
                             setLCNextImageVisible(false)
                             localStorage.removeItem('GameMode1IdentityAnswer')
                             localStorage.removeItem('GameMode1Answer')
+                            localStorage.removeItem('gameMode1XArr')
+                            localStorage.removeItem('gameMode1YArr')
                             setUserAnswer('')
+                            
 
                 }}>
 

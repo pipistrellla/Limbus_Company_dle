@@ -2,6 +2,7 @@
     display: none;
 }
 
+
 select {
     padding: 14px 28px;
     margin: 0 14px 10px 14px;
@@ -10,6 +11,7 @@ select {
     background-color: rgba(0, 0, 0,  0.6);
     border: 2px solid burlywood ;
     cursor: pointer; 
+    width: 800px;
 }
 
 
@@ -35,6 +37,15 @@ option:checked {
 
 .LCSelect.show {
     display: flex;
+
+    animation: show 0.4s;
+
+    animation-iteration-count: 1;
+}
+
+@keyframes show{
+    0% {transform: translateY(-200px); opacity: 0;}
+    100% { transform: translateY(0); transition: all 400ms ease; opacity: 1;}
 }
 
 @media screen and (max-width: 1200px) {
