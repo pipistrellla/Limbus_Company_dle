@@ -1,4 +1,4 @@
-import React , {useState} from "react";
+import React , {useEffect, useState} from "react";
 import classes from './LCGameMode4Menu.module.css';
 import LCInput from "../LCInput/LCInput";
 import LCButton from '../LCButton/LCButton'
@@ -8,9 +8,9 @@ const LCGameMode4Menu = () => {
     const [userAnswer, setUserAnswer] = useState('');
 
     
-    const emojiGuess = '⚔ 🚬 🚅 🧽'
+    const [emojiGuess, setEmojiGuess] = useState('⚔ 🚬 🚅 🧽')
     const emojiGuessArr = emojiGuess.split(' ')
-    const gameMode4Answer = 'ryoshu' 
+    const [gameMode4Answer,setGameMode4Answer] = useState('ryoshu') 
 
 
 // в массивах определяем индекс по длине массива,который хотим увеличить
@@ -45,6 +45,16 @@ const LCGameMode4Menu = () => {
     }
 
     const [emojiGuessShowed, setEmojiGuessShowed] = useState(JSON.parse(localStorage.getItem('gameMode4')))
+
+    useEffect( ( ) => 
+    {
+        fetch('/api/gm4')
+        .then(response => response.json())
+        .then(response => {let tempData = response[1].split(' - ')
+            setEmojiGuess(tempData[0])
+            setGameMode4Answer(tempData[1])
+        })
+    })
 
 return(
     <form>

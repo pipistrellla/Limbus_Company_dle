@@ -15,3 +15,15 @@
     align-items: center;
     margin-top: 12px;
 }
+
+
+@media screen and (max-width: 1200px) {
+
+    .LCHeaderText {
+        font-size: 30px;
+        margin-top: 4px;
+    }
+    .LCHeaderButton {
+        margin-top: 4px;
+    }
+}

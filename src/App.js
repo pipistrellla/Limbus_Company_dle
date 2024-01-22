@@ -1,4 +1,4 @@
-import './App.css';
+import './styles/App.css'
 import LCHeader from './components/UI/LCHeader/LCHeader';
 import React from "react";
 import { BrowserRouter } from 'react-router-dom';
