@@ -44,13 +44,15 @@ const LCGameMode4Menu = () => {
         localStorage.setItem('gameMode4' , JSON.stringify(emojiGuessArr[0]));
     }
 
-    const [emojiGuessShowed, setEmojiGuessShowed] = useState(JSON.parse(localStorage.getItem('gameMode4')))
-
+    const [emojiGuessShowed, setEmojiGuessShowed] = 
+    useState((typeof(JSON.parse(localStorage.getItem('gameMode4'))))
+     === 'string' ? [JSON.parse(localStorage.getItem('gameMode4'))] : (JSON.parse(localStorage.getItem('gameMode4'))))
     useEffect( ( ) => 
     {
         fetch('/api/gm4')
         .then(response => response.json())
-        .then(response => {let tempData = response[1].split(' - ')
+        .then(response => {
+            let tempData = response[1].split(' - ')
             setEmojiGuess(tempData[0])
             setGameMode4Answer(tempData[1])
         })
@@ -60,7 +62,9 @@ return(
     <form>
         <div className={classes.LCGameModeBorder}>
             
-            <div className={classes.LCEmoji}> {emojiGuessShowed}  </div>
+            <div className={classes.LCEmoji}> 
+                {emojiGuessShowed.map((item)=> <div key = {item} className={classes.LCChar}>{item}</div>)}  
+            </div>
             
             <LCInput
             type = 'text' 
@@ -71,7 +75,6 @@ return(
             <LCButton
             onClick = {(e) => 
                 {e.preventDefault();
-                    console.log(localStorage.getItem('gameMode4'))
                     if (LCAnswerCheck(userAnswer, gameMode4Answer)) {
                         showAllEmoji();
 

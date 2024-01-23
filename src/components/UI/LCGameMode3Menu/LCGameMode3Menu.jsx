@@ -175,6 +175,29 @@ const LCGameMode3Menu = () => {
 
     }, [LCEGOList] )
 
+    const LCGameModeBorderClasses = [classes.LCEGO]
+    const [LCGameModeBorderClassesShake,setLCGameModeBorderClassesShake] = useState('next')
+
+    
+    if (LCGameModeBorderClassesShake === false){
+        LCGameModeBorderClasses.push(classes.wrong)
+    
+        setTimeout(()=> {LCGameModeBorderClasses.pop() ; setLCGameModeBorderClassesShake(' ')},400)
+    }
+    
+    if (LCGameModeBorderClassesShake === true){
+        LCGameModeBorderClasses.push(classes.true)
+    
+        setTimeout(()=> {LCGameModeBorderClasses.pop() ; setLCGameModeBorderClassesShake(' ')},400)
+    }
+    
+
+    if (LCGameModeBorderClassesShake === 'next'){
+        LCGameModeBorderClasses.push(classes.next)
+    
+        setTimeout(()=> {LCGameModeBorderClasses.pop() ; setLCGameModeBorderClassesShake(' ')},2000)
+    }
+
 return(
     <form>
         <div className={classes.LCGameModeBorder}>
@@ -184,7 +207,7 @@ return(
 
             <LCCanvas 
                 ref = {canvasRef} 
-                className={classes.LCEGO}
+                className={LCGameModeBorderClasses.join(' ')}
                 style={{ 
                     backgroundImage: `url("${imgLink}")` 
             }}/>
@@ -204,11 +227,13 @@ return(
                                                 localStorage.setItem('gameMode3YArr' , yArr.join(' '));
                                                 localStorage.setItem('GameMode3Answer', JSON.stringify(true))
                                                 setLCSelectVisible(true)
+                                                setLCGameModeBorderClassesShake(true)
                                             }
                                             else {
                                                 UnDraw(xArr,yArr)
                                                 localStorage.setItem('gameMode3XArr' , xArr.join(' '));
                                                 localStorage.setItem('gameMode3YArr' , yArr.join(' '));
+                                                setLCGameModeBorderClassesShake(false)
                                             }
                                         }}
                                     > Confirm 
@@ -222,6 +247,9 @@ return(
                                         localStorage.setItem('GameMode3EGOAnswer' , JSON.stringify(true));
                                         console.log('YES')
                                         setLCNextImageVisible(true)
+                                        setLCGameModeBorderClassesShake(true)
+                                    } else {
+                                        setLCGameModeBorderClassesShake(false)
                                     }}}
                 defaultValue = {EGO}
                 options = {JSON.parse(LCEGOList)}
@@ -236,6 +264,7 @@ return(
                     nextImageShow(canvasRef)
                     setLCSelectVisible(false)
                     setLCNextImageVisible(false)
+                    setLCGameModeBorderClassesShake('next')
                     localStorage.removeItem('GameMode3EGOAnswer')
                     localStorage.removeItem('GameMode3Answer')
 

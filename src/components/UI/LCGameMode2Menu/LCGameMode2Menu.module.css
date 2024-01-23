@@ -40,6 +40,33 @@
     height: 280px;
 }
 
+.LCFullblack {
+    margin: 10px 20px 10px 20px;
+    border: 4px solid burlywood;   
+    /* background-image: url('../../../images/ImageForGameMode2/Acupuncture_Outis_Icon.webp'); */
+    width: 280px;
+    height: 280px;
+    background-color: black;
+
+}
+
+.LCSkill.next {
+
+    animation: skillImage 1.5s;
+    animation-iteration-count: 1;
+}
+
+
+@keyframes skillImage {
+
+    0% {    background-color: rgba(0, 0, 0, 1); background-blend-mode:darken; }
+    25% {    background-color: rgba(0, 0, 0, 0.85); background-blend-mode: darken;}
+    50% {    background-color: rgba(0, 0, 0, 0.70); background-blend-mode: darken;}
+    75% {    background-color: rgba(0, 0, 0, 0.5); background-blend-mode: darken;}
+    100% {   background-color: rgba(0, 0, 0, 0);  background-blend-mode: darken;}
+
+}
+
 @media screen and (max-width: 1200px) {
 
     .LCGameModeBorder {
@@ -52,6 +79,10 @@
         width: 800px;
     }
     .LCSkill {
+        width: 250px;
+        height: 250px;
+    }
+    .LCFullblack {
         width: 250px;
         height: 250px;
     }
@@ -69,6 +100,10 @@
     }
     .LCSecondLine{
         width: 400px;
+    }
+    .LCFullblack {
+        width: 130px;
+        height: 130px;
     }
 
 }

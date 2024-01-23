@@ -58,13 +58,10 @@ return(
             <div className={classes.LCFirstLine}>
                 {imgLink.map((item)=>
                 <LCCanvas
-                    className={classes.LCSkill} 
+                    className={(imgLink.indexOf(item) < attempNumber )? classes.LCSkill + ' ' + classes.next : classes.LCFullblack} 
                     key = {item}
                     style={{ 
-                        backgroundImage: (imgLink.indexOf(item) < attempNumber )? `url("${item}")` : `url("")`
-                }}>
-
-
+                    backgroundImage: (imgLink.indexOf(item) < attempNumber )? `url("${item}")` : `url("")`}}>
                 </LCCanvas>)}
 
             </div>

@@ -104,7 +104,17 @@ const PictureObjectCreatorForGameMode2  = (pathTo, characters) => {
 const emojiObjectCreator = (pathTo) =>  {
     try { 
         let allEmoji = fs.readFileSync(pathTo, 'utf8', )
-        const tempData = allEmoji.split('\r\n')
+        // для мака 
+        let tempData = allEmoji
+
+        // для винды
+        if (tempData.indexOf('\r\n') !==-1){
+            tempData = tempData.split('\r\n')
+        // для мака
+        } else {
+            tempData = tempData.split('\n')
+        }
+        console.log(tempData)
         return tempData
     } catch(e) {
         console.log(`error in emojiObjectCreator error: ${e}`  )
