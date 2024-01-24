@@ -1,7 +1,7 @@
 import React from "react";
 import  './LCSelect.css';
 
-const LCSelect = ({options , defaultValue, value, onChange , visible}) => {
+const LCSelect = ({options , defaultValue, value, onChange , visible, ...props}) => {
 
     const rootClass = ['LCSelect']
 
@@ -12,7 +12,9 @@ const LCSelect = ({options , defaultValue, value, onChange , visible}) => {
     return(
         <div className={rootClass.join(' ')}>
             <select
+            {...props}
             value = {value}
+            
             onChange = {event => onChange(event.target.value)}
             >
                 <option disabled = {true} value ={defaultValue} > {defaultValue} </option>

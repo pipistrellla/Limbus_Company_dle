@@ -30,10 +30,22 @@ const LCGameMode1Menu = () => {
     const [identityList, setIdentityList] = useState(JSON.stringify([]))
 
     function answerSet(position){
-        setGameModeAnswer((JSON.parse(identityList))[position].characterName);
-        setGameMode1IdentityAnswer((JSON.parse(identityList))[position].name);
-        setImageLink('');
-        setImageLink(require(`../../../images/imageForGameMode1/${(JSON.parse(identityList))[position].pathToImage}`));
+        if (localStorage.getItem('gameMode1Position') === null){
+            localStorage.removeItem('GameMode3EGOAnswer')
+            localStorage.removeItem('GameMode3Answer')
+            setGameModeAnswer((JSON.parse(identityList))[position].characterName);
+            setGameMode1IdentityAnswer((JSON.parse(identityList))[position].name);
+            setImageLink('');
+            setImageLink(require(`../../../images/imageForGameMode1/${(JSON.parse(identityList))[position].pathToImage}`));
+            localStorage.setItem('gameMode1Position' , position)
+        // забираем позицию
+        } else {
+            let tempPos = +localStorage.getItem('gameMode1Position')
+            setGameModeAnswer((JSON.parse(identityList))[tempPos].characterName);
+            setGameMode1IdentityAnswer((JSON.parse(identityList))[tempPos].name);
+            setImageLink('');
+            setImageLink(require(`../../../images/imageForGameMode1/${(JSON.parse(identityList))[tempPos].pathToImage}`));
+        }
     }
 
     function nextImageShow(canvasRef) { 
@@ -117,9 +129,9 @@ const LCGameMode1Menu = () => {
         .then(response => setIdentityList(JSON.stringify(response)));
 
         // очищаем холст и показываем select, если был дан верный ответ
-        // for (let i = 0; i < xArr.length; i+=1  ) {
-        //     LCUndraw(canvasRef.current.getContext('2d'),xArr[i],yArr[i],clearRect);
-        // }
+        for (let i = 0; i < xArr.length; i+=1  ) {
+            LCUndraw(canvasRef.current.getContext('2d'),xArr[i],yArr[i],clearRect);
+        }
 
         if ((localStorage.getItem('GameMode1Answer') === null) ) {
             setLCSelectVisible(false)
@@ -144,9 +156,9 @@ const LCGameMode1Menu = () => {
             // рендоманая генерация 1 картинки
             answerSet(LCRandomTask(JSON.parse(identityList)));
 
-            // тут поменять если нужно будет запоминание
-            localStorage.removeItem('GameMode1Answer')
-            localStorage.removeItem('GameMode1IdentityAnswer')
+            // тут поменять если (не) нужно будет запоминание
+            // localStorage.removeItem('GameMode1Answer')
+            // localStorage.removeItem('GameMode1IdentityAnswer')
 
 
             // статичная генерация
@@ -202,6 +214,7 @@ return(
                 <LCInput type = 'text' 
                 name = 'userAnswer'
                 placeholder = 'Enter LC character name' 
+                disabled={(LCSelectVisible === true) ? true : false }
                 onChange={(event) => setUserAnswer(event.target.value)} />
                 
                 <LCButton onClick = {(e) => 
@@ -223,10 +236,13 @@ return(
                                             }
                                             
                                         }
-                                    }> Confirm 
+                                    }
+                    disabled={(LCSelectVisible === true) ? true : false }> 
+                    Confirm 
                 </LCButton>
 
                 <LCSelect
+                    disabled={LCNextImageVisible}
                     value = {identity}
                     onChange= { value => {setIdentity(value);
                                         if (LCAnswerCheck(value , gameMode1IdentityAnswer) )

@@ -2,6 +2,9 @@
     display: none;
 }
 
+.LCSelect[disabled] {
+    cursor:not-allowed;
+}
 
 select {
     padding: 14px 28px;
@@ -25,6 +28,7 @@ option {
     background-color:  burlywood;
     cursor: pointer;
 }
+
 
 
 option:checked {

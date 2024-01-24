@@ -14,11 +14,7 @@ const LCButton = ({children , visible, ...props}) => {
     }
     else if ((visible === true) && (count === 0)){
         rootClass.push(classes.show)
-        setTimeout(()=> {setCount(1); rootClass.pop()}, 400 )
-    } else if ((visible === true) && (count === 1)) {
-        console.log(rootClass)
-    }
-
+        setTimeout(()=> {setCount(1); rootClass.pop()}, 400 )}
 
 
     return (

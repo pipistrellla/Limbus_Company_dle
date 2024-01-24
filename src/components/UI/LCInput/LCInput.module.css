@@ -15,7 +15,9 @@
 }
 
 
-
+.LCInput[disabled] {
+    cursor:not-allowed;
+}
 
 .LCInput:focus {
     outline: none;

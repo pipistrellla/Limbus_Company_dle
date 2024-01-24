@@ -10,6 +10,9 @@
     justify-content: center;
 
 }
+.LCButton[disabled] {
+    cursor:not-allowed;
+}
 
 
 .LCButton.show {
