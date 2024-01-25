@@ -48,8 +48,21 @@ option:checked {
 }
 
 @keyframes show{
-    0% {transform: translateY(-200px); opacity: 0;}
+    0% {transform: translateY(-1500px); opacity: 0;}
     100% { transform: translateY(0); transition: all 400ms ease; opacity: 1;}
+}
+
+.LCSelect.hide {
+    display: flex;
+
+    animation: hide 0.4s;
+
+    animation-iteration-count: 1;
+}
+
+@keyframes hide{
+    0% { transform: translateY(0); transition: all 400ms ease; opacity: 1;}
+    100% {transform: translateY(1500px); opacity: 0;}
 }
 
 @media screen and (max-width: 1200px) {

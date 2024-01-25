@@ -114,6 +114,7 @@ return(
                                 setLCGameModeBorderClassesShake(true)
                                 localStorage.setItem('gm2next' , true)
                                 localStorage.setItem('gm2attempt' , 4)
+                                localStorage.setItem('gm2score', +(localStorage.getItem('gm2score'))+1)
                             } else {
                                 setAttempNumber(attempNumber+1)
                                 setLCGameModeBorderClassesShake(false)

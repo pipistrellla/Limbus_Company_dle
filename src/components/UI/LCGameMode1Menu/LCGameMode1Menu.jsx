@@ -31,8 +31,10 @@ const LCGameMode1Menu = () => {
 
     function answerSet(position){
         if (localStorage.getItem('gameMode1Position') === null){
-            localStorage.removeItem('GameMode3EGOAnswer')
-            localStorage.removeItem('GameMode3Answer')
+            localStorage.removeItem('GameMode1IdentityAnswer')
+            localStorage.removeItem('GameMode1Answer')
+            localStorage.removeItem('gameMode1XArr')
+            localStorage.removeItem('gameMode1YArr')
             setGameModeAnswer((JSON.parse(identityList))[position].characterName);
             setGameMode1IdentityAnswer((JSON.parse(identityList))[position].name);
             setImageLink('');
@@ -213,7 +215,7 @@ return(
 
                 <LCInput type = 'text' 
                 name = 'userAnswer'
-                placeholder = 'Enter LC character name' 
+                placeholder = {( LCSelectVisible === true) ? gameMode1Answer : 'Enter LC character name'  }
                 disabled={(LCSelectVisible === true) ? true : false }
                 onChange={(event) => setUserAnswer(event.target.value)} />
                 
@@ -243,7 +245,7 @@ return(
 
                 <LCSelect
                     disabled={LCNextImageVisible}
-                    value = {identity}
+                    value = {(LCNextImageVisible === true) ? gameMode1IdentityAnswer : identity}
                     onChange= { value => {setIdentity(value);
                                         if (LCAnswerCheck(value , gameMode1IdentityAnswer) )
                                             {
@@ -251,6 +253,7 @@ return(
                                                 console.log('YES')
                                                 setLCNextImageVisible(true)
                                                 setLCGameModeBorderClassesShake(true)
+                                                localStorage.setItem('gm1score', +(localStorage.getItem('gm1score'))+1)
                                             }
                                         else 
                                             setLCGameModeBorderClassesShake(false)}}
@@ -264,15 +267,13 @@ return(
                     onClick= {(e)=> 
                         {e.preventDefault();
                             setLCGameModeBorderClassesShake('next') 
+                            localStorage.removeItem('gameMode1Position')
                             answerSet(LCRandomTask(JSON.parse(identityList)));
                             nextImageShow(canvasRef)
                             setLCSelectVisible(false)
                             setLCNextImageVisible(false)
-                            localStorage.removeItem('GameMode1IdentityAnswer')
-                            localStorage.removeItem('GameMode1Answer')
-                            localStorage.removeItem('gameMode1XArr')
-                            localStorage.removeItem('gameMode1YArr')
                             setUserAnswer('')
+                            
                             
 
                 }}>

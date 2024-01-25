@@ -268,6 +268,7 @@ return(
                                         localStorage.setItem('GameMode3EGOAnswer' , JSON.stringify(true));
                                         setLCNextImageVisible(true)
                                         localStorage.setItem('gm3EGO', value)
+                                        localStorage.setItem('gm3score', +(localStorage.getItem('gm3score'))+1)
                                     } else {
                                         setLCGameModeBorderClassesShake(false)
                                     }}}

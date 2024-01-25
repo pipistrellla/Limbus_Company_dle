@@ -110,6 +110,7 @@ return(
                         setLCGameModeBorderClassesShake(true)
                         setNextVisible(true)
                         localStorage.setItem('gm4Next' , true)
+                        localStorage.setItem('gm4score', +(localStorage.getItem('gm4score'))+1)
                     }
                     else {
                         showNewEmoji();
@@ -126,6 +127,7 @@ return(
                     {e.preventDefault();
                         answerSet()
                         setNextVisible(false)
+                        localStorage.removeItem('gm4Next')
             }}>
                 Next
             </LCButton>
