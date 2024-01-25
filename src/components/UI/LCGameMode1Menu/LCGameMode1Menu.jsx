@@ -259,6 +259,7 @@ return(
                                             setLCGameModeBorderClassesShake(false)}}
                     defaultValue = {identity}
                     options = {JSON.parse(identityList)}
+                    answer = {gameMode1Answer}
                     visible = {LCSelectVisible}
                 />
 

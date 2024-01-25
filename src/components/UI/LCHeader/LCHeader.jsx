@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import LCButton from "../LCButton/LCButton";
 import classes from './LCHeader.module.css';
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import LCModal from "../LCModal/LCModal";
 import LCSetting from "../LCSettings/LCSetting";
 

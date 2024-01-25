@@ -275,6 +275,7 @@ return(
                 defaultValue = {EGO}
                 options = {JSON.parse(LCEGOList)}
                 visible = {LCSelectVisible}
+                answer={gameMode3Answer}
             />
 
             <LCButton

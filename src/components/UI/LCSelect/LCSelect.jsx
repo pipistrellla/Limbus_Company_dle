@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import  './LCSelect.css';
 
-const LCSelect = ({options , defaultValue, value, onChange , visible, ...props}) => {
+const LCSelect = ({options , defaultValue, value, onChange , visible, answer, ...props}) => {
 
     const rootClass = ['LCSelect']
     const [count, setCount] = useState(0)
@@ -16,8 +16,8 @@ const LCSelect = ({options , defaultValue, value, onChange , visible, ...props})
         setTimeout (() => setCount(0), 390)
         }
     }
-
     return(
+        
         <div className={rootClass.join(' ')}>
             <select
             {...props}
@@ -26,8 +26,8 @@ const LCSelect = ({options , defaultValue, value, onChange , visible, ...props})
             onChange = {event => onChange(event.target.value)}
             >
                 <option disabled = {true} value ={defaultValue} > {defaultValue} </option>
-                {options.map(option =>
-                <option  key = {option.name} value={option.name}> {option.name} </option>)}
+                {options.map(option => (option.characterName === answer) ?
+                (<option  key = {option.name} value={option.name}> {option.name} </option>) : <hr key = {option.name}></hr>)}
             </select>
         </div>
     )
