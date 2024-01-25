@@ -9,19 +9,19 @@ const LCMenu = () => {
         <div className={classes.LCMenuBorder}>
             <div className={classes.LCMenuMods}>
 
-                <LCButton onClick = {() => console.log('changed to game mode 1') }>
+                <LCButton>
                     <Link to ='/LCdle/LCGM1'>Guess by picture</Link> 
                 </LCButton> 
 
-                <LCButton onClick = {() => console.log('changed to game mode 2') }>
+                <LCButton>
                     <Link to ='/LCdle/LCGM2'>Guess by skill or passive</Link>
                 </LCButton>
 
-                <LCButton onClick = {() => console.log('changed to game mode 3') }>
+                <LCButton>
                     <Link to ='/LCdle/LCGM3'>Guess by E.G.O</Link>
                 </LCButton>
 
-                <LCButton onClick = {() => console.log('changed to game mode 4') }>
+                <LCButton>
                     <Link to ='/LCdle/LCGM4'>Guess by emoji</Link>
                 </LCButton>
 

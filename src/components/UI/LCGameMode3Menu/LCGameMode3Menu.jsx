@@ -48,10 +48,24 @@ const LCGameMode3Menu = () => {
     }
 
     function answerSet(position){
-        setGameMode3Answer((JSON.parse(LCEGOList))[position].characterName);
-        setGameMode3EGOAnswer((JSON.parse(LCEGOList))[position].name);
-        setImageLink('');
-        setImageLink(require(`../../../images/ImageForGameMode3/${(JSON.parse(LCEGOList))[position].pathToImage}`));
+        // запоминаем позицию
+        if (localStorage.getItem('gameMode3Position') === null){
+            localStorage.removeItem('GameMode3EGOAnswer')
+            localStorage.removeItem('GameMode3Answer')
+            setGameMode3Answer((JSON.parse(LCEGOList))[position].characterName);
+            setGameMode3EGOAnswer((JSON.parse(LCEGOList))[position].name);
+            setImageLink('');
+            setImageLink(require(`../../../images/ImageForGameMode3/${(JSON.parse(LCEGOList))[position].pathToImage}`));
+            
+            localStorage.setItem('gameMode3Position' , position)
+        // забираем позицию
+        } else {
+            let tempPos = +localStorage.getItem('gameMode3Position')
+            setGameMode3Answer((JSON.parse(LCEGOList))[tempPos].characterName);
+            setGameMode3EGOAnswer((JSON.parse(LCEGOList))[tempPos].name);
+            setImageLink('');
+            setImageLink(require(`../../../images/ImageForGameMode3/${(JSON.parse(LCEGOList))[tempPos].pathToImage}`));
+        }
     }
 
 
@@ -130,9 +144,9 @@ const LCGameMode3Menu = () => {
         
         
         // очищаем холст и показываем select, если был дан верный ответ
-        // for (let i = 0; i < xArr.length; i+=1  ){
-        //     LCUndraw(canvasRef.current.getContext('2d'),xArr[i],yArr[i],clearRect)
-        // }
+        for (let i = 0; i < xArr.length; i+=1  ){
+            LCUndraw(canvasRef.current.getContext('2d'),xArr[i],yArr[i],clearRect)
+        }
         
         if (localStorage.getItem('GameMode3Answer') === null) {
             setLCSelectVisible(false)
@@ -157,9 +171,9 @@ const LCGameMode3Menu = () => {
             // рендоманая генерация 1 картинки
             answerSet(LCRandomTask(JSON.parse(LCEGOList)));
 
-            // тут поменять если нужно будет запоминание
-            localStorage.removeItem('GameMode3EGOAnswer')
-            localStorage.removeItem('GameMode3Answer')
+            // тут поменять если (не) нужно будет запоминание
+            // localStorage.removeItem('GameMode3EGOAnswer')
+            // localStorage.removeItem('GameMode3Answer')
 
             
             // статичная генерация
@@ -213,12 +227,16 @@ return(
             }}/>
             
             <LCInput
+            
             type = 'text' 
             name = 'userAnswer'
-            placeholder = 'Enter LC character name' 
-            onChange={(event) => setUserAnswer(event.target.value)}/>
+            placeholder = {( LCSelectVisible === true) ? localStorage.getItem('gm3name') : 'Enter LC character name'  }
+            onChange={(event) => setUserAnswer(event.target.value)}
+            disabled={LCSelectVisible}/>
             
-            <LCButton onClick = {(e) => 
+            <LCButton 
+            disabled={(LCSelectVisible === true) ? true : false }
+            onClick = {(e) => 
                                         {e.preventDefault();
                                             console.log(localStorage.getItem(LCEGOList))
                                             if (LCAnswerCheck(userAnswer, gameMode3Answer)) {
@@ -228,6 +246,7 @@ return(
                                                 localStorage.setItem('GameMode3Answer', JSON.stringify(true))
                                                 setLCSelectVisible(true)
                                                 setLCGameModeBorderClassesShake(true)
+                                                localStorage.setItem('gm3name', (JSON.parse(LCEGOList))[+localStorage.getItem('gameMode3Position')].characterName )
                                             }
                                             else {
                                                 UnDraw(xArr,yArr)
@@ -240,14 +259,16 @@ return(
             </LCButton>
 
             <LCSelect
-                value = {EGO}
+                value = {(LCNextImageVisible === true) ? localStorage.getItem('gm3EGO') : EGO}
+                disabled={LCNextImageVisible}
                 onChange= { value => {setEGO(value);
                                 if (LCAnswerCheck(value , gameMode3EGOAnswer) )
                                     {
-                                        localStorage.setItem('GameMode3EGOAnswer' , JSON.stringify(true));
-                                        console.log('YES')
-                                        setLCNextImageVisible(true)
                                         setLCGameModeBorderClassesShake(true)
+                                        localStorage.setItem('GameMode3EGOAnswer' , JSON.stringify(true));
+                                        setLCNextImageVisible(true)
+                                        localStorage.setItem('gm3EGO', value)
+                                        localStorage.setItem('gm3score', +(localStorage.getItem('gm3score'))+1)
                                     } else {
                                         setLCGameModeBorderClassesShake(false)
                                     }}}
@@ -260,14 +281,12 @@ return(
             visible = {LCNextImageVisible}
             onClick= {(e)=> 
                 {e.preventDefault(); 
+                    localStorage.removeItem('gameMode3Position')
                     answerSet(LCRandomTask(JSON.parse(LCEGOList)));
                     nextImageShow(canvasRef)
                     setLCSelectVisible(false)
                     setLCNextImageVisible(false)
                     setLCGameModeBorderClassesShake('next')
-                    localStorage.removeItem('GameMode3EGOAnswer')
-                    localStorage.removeItem('GameMode3Answer')
-
                 }}>
 
                 next image

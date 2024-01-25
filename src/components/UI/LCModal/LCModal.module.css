@@ -1,0 +1,76 @@
+.LCModal.block{
+    display: none;
+}
+
+
+.LCModal {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+    animation: hideBG 1s;
+    animation-iteration-count: 1;
+}
+
+@keyframes hideBG {
+    0% { opacity: 100%;  }
+    100% { opacity: 0;}
+}
+
+.LCModalContent {
+    border: 4px dotted burlywood;
+    padding: 30px;
+    background-color: rgba(0, 0, 0, 0.849);
+    border-radius: 12px;
+    min-width: 500px;
+    transition: 0.44s all;
+    animation: hide 1s;
+    animation-iteration-count: 1;
+}
+
+
+@keyframes hide {
+    0% { transform: translate(0px, 0px)  }
+    100% { transform: translate(0px, 1000px) }
+}
+
+.LCModal.active{
+    animation: showBG 1s;
+    animation-iteration-count: 1;
+    display: flex;
+}
+
+@keyframes showBG {
+    0% { opacity: 0;  }
+    100% { opacity: 100%; }
+}
+
+.LCModalContent.active{
+    animation: show 1s;
+    animation-iteration-count: 1;
+}
+
+@keyframes show {
+    0% { transform: translate(0px, -1000px)  }
+    100% { transform: translate(0px, 0px) }
+}
+
+
+@media screen and (max-width: 600px) {
+    .LCModalContent {
+        border: 4px dotted burlywood;
+        padding: 30px;
+        background-color: rgba(0, 0, 0, 0.849);
+        border-radius: 12px;
+        min-width: 250px;
+        transition: 0.44s all;
+        animation: hide 1s;
+        animation-iteration-count: 1;
+    }
+
+}

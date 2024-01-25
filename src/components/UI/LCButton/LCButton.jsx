@@ -7,18 +7,16 @@ const LCButton = ({children , visible, ...props}) => {
     const [count, setCount] = useState(0)
 
     if (visible === false)  {
-        rootClass.push(classes.hide)
-        if (count !==0){
-            setCount(0)
+        if (count === 0){
+            rootClass.push(classes.none)
+        } else if (count === 1){
+            rootClass.push(classes.hide);
+            setTimeout(()=> setCount(0), 390 )
         }
-    }
-    else if ((visible === true) && (count === 0)){
-        rootClass.push(classes.show)
-        setTimeout(()=> {setCount(1); rootClass.pop()}, 400 )
-    } else if ((visible === true) && (count === 1)) {
-        console.log(rootClass)
-    }
 
+    } else if ((visible === true) && (count === 0)){
+        rootClass.push(classes.show)
+        setTimeout(()=> {setCount(1); rootClass.pop()}, 390 )}
 
 
     return (

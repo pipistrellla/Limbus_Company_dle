@@ -13,15 +13,26 @@ const LCGameMode2Menu = () => {
     const [gameMode2Data, setGameMode2Data] = useState('[]')
     const [gameMode2Answer, setGameMode2Answer] = useState('Outis')
     const [attempNumber, setAttempNumber] = useState(1)
-    const [nextImageVisible, setNextImageVisible] = useState(false)
+    const [nextImageVisible, setNextImageVisible] = useState(( localStorage.getItem('gm2next') === 'true') ? true : false)
 
     function answerSet(position){
-        setImageLink('')
-        let tempArr = JSON.parse(gameMode2Data)[position].pathToImage
-        // присваиваем картинки
-        tempArr = tempArr.map(item => require(`../../../images/ImageForGameMode2/${item}`))
-        setImageLink(tempArr)
-        setGameMode2Answer(JSON.parse(gameMode2Data)[position].characterName)
+        if (localStorage.getItem('gm2position') === null){
+            localStorage.setItem('gm2position' , position)
+            setImageLink('')
+            let tempArr = JSON.parse(gameMode2Data)[position].pathToImage
+            // присваиваем картинки
+            tempArr = tempArr.map(item => require(`../../../images/ImageForGameMode2/${item}`))
+            setImageLink(tempArr)
+            setGameMode2Answer(JSON.parse(gameMode2Data)[position].characterName)
+        } else {
+            let tempPos = +localStorage.getItem('gm2position')
+            let tempArr = JSON.parse(gameMode2Data)[tempPos].pathToImage
+            // присваиваем картинки
+            tempArr = tempArr.map(item => require(`../../../images/ImageForGameMode2/${item}`))
+            setImageLink(tempArr)
+            setGameMode2Answer(JSON.parse(gameMode2Data)[tempPos].characterName)
+        }
+
 
     }
 
@@ -41,12 +52,28 @@ const LCGameMode2Menu = () => {
             // рендоманая генерация 1 картинки
 
             answerSet(LCRandomTask(JSON.parse(gameMode2Data)));
-            
+            if (localStorage.getItem('gm2attempt') !== null )
+                setAttempNumber(+localStorage.getItem('gm2attempt'))
     }
+    
     
     }, [gameMode2Data])
         
-        
+    const LCGameModeBorderClasses = [classes.LCFirstLine]
+    const [LCGameModeBorderClassesShake,setLCGameModeBorderClassesShake] = useState(' ')
+
+    
+    if (LCGameModeBorderClassesShake === false){
+        LCGameModeBorderClasses.push(classes.wrong)
+    
+        setTimeout(()=> {LCGameModeBorderClasses.pop() ; setLCGameModeBorderClassesShake(' ')},400)
+    }
+    
+    if (LCGameModeBorderClassesShake === true){
+        LCGameModeBorderClasses.push(classes.true)
+    
+        setTimeout(()=> {LCGameModeBorderClasses.pop() ; setLCGameModeBorderClassesShake(' ')},400)
+    }
 
 
 
@@ -55,7 +82,7 @@ return(
         <div className={classes.LCGameModeBorder}>
             
             
-            <div className={classes.LCFirstLine}>
+            <div className={LCGameModeBorderClasses.join(' ')}>
                 {imgLink.map((item)=>
                 <LCCanvas
                     className={(imgLink.indexOf(item) < attempNumber )? classes.LCSkill + ' ' + classes.next : classes.LCFullblack} 
@@ -72,19 +99,26 @@ return(
                 <LCInput 
                     type = 'text' 
                     name = 'userAnswer'
-                    placeholder = 'Enter LC character name' 
-                    onChange={(event) =>   setUserAnswer(event.target.value)}/>
+                    disabled={(nextImageVisible === true) ? true : false }
+                    placeholder = {(nextImageVisible === true) ?  gameMode2Answer: 'Enter LC character name' }
+                    onChange={(event) =>  setUserAnswer(event.target.value)
+                    }/>
 
                 <LCButton 
-                    
+                    disabled={(nextImageVisible === true) ? true : false }
                     onClick = {(e) => 
                         {e.preventDefault();
                             if (LCAnswerCheck(userAnswer, gameMode2Answer)) {
                                 setAttempNumber(4)
                                 setNextImageVisible(true)
-                            }
-                            else {
+                                setLCGameModeBorderClassesShake(true)
+                                localStorage.setItem('gm2next' , true)
+                                localStorage.setItem('gm2attempt' , 4)
+                                localStorage.setItem('gm2score', +(localStorage.getItem('gm2score'))+1)
+                            } else {
                                 setAttempNumber(attempNumber+1)
+                                setLCGameModeBorderClassesShake(false)
+                                localStorage.setItem('gm2attempt' , attempNumber+1)
                             }
                         }
                     }> Confirm </LCButton>
@@ -94,8 +128,12 @@ return(
                     onClick = {(e) => 
                         {e.preventDefault();
                             setNextImageVisible(false)
+                            localStorage.removeItem('gm2position')
                             answerSet(LCRandomTask(JSON.parse(gameMode2Data)));
                             setAttempNumber(1)
+                            localStorage.removeItem('gm2next')
+                            localStorage.removeItem('gm2attempt')
+                            
                         }
                     }> next Image </LCButton>
             </div>
