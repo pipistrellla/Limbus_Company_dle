@@ -1,7 +1,5 @@
 import React, {useRef} from "react";
-import {useLCCanvasFill, useLCCanvasUndraw } from "../../hook/useLCCanvas";
-import { LCUndraw } from "../../LCUndraw";
-import { LCFillBlack } from "../../LCFillBlack";
+
 
 const LCCanvas =  React.forwardRef((props, ref) => {
 
