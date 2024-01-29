@@ -10,6 +10,7 @@ import { LCAnswerCheck } from "../../LCAnswerCheck";
 import { LCCanvasClear } from "../../LCCanvasClear";
 import LCSelect from "../LCSelect/LCSelect";
 import { LCRandomTask } from "../../LCRandomTask";
+import { LCCanvasStatusSet } from "../../LCCanvasStatusSet";
 
 
 
@@ -228,6 +229,7 @@ return(
                                                 localStorage.setItem('GameMode1Answer', JSON.stringify(true))
                                                 setLCSelectVisible(true)
                                                 setLCGameModeBorderClassesShake(true)
+                                                LCCanvasStatusSet(true)
 
                                             }
                                             else {
@@ -235,6 +237,7 @@ return(
                                                 localStorage.setItem('gameMode1XArr' , xArr.join(' '));
                                                 localStorage.setItem('gameMode1YArr' , yArr.join(' '));
                                                 setLCGameModeBorderClassesShake(false)
+                                                LCCanvasStatusSet(false)
                                             }
                                             
                                         }
