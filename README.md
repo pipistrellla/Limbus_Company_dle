@@ -28,6 +28,15 @@ there are 4 gamemodes <br>
    + After a wrong answer, another emoji is revealed. <br>
  
 ---
+### To start frontend write in project directory: 
+-    `npm start`
+### To start backend write in project directory: 
+-   `cd src/backend`
+-   `npm start`
+### To start backend in dev mod write in project directory: 
+-   `cd src/backend`
+-   `npm run dev`
+---
 - Need to create a list with the character's name | emojis description 
 
 
