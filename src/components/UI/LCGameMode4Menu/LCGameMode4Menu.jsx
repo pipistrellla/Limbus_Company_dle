@@ -4,11 +4,15 @@ import LCInput from "../LCInput/LCInput";
 import LCButton from '../LCButton/LCButton'
 import { LCAnswerCheck } from "../../LCAnswerCheck";
 import { LCRandomTask } from "../../LCRandomTask";
+import LCRandomEmoji from "../LCRandomEmoji/LCRandomEmoji";
+
+
 const LCGameMode4Menu = () => {
     const [nextVisible, setNextVisible] = useState((localStorage.getItem('gm4Next')==='true') ? true : false)
     const [userAnswer, setUserAnswer] = useState('');
     const [emojiGuess, setEmojiGuess] = useState(' ')
     const [gameMode4Answer,setGameMode4Answer] = useState(' ')  
+    const [canvasStatus, setCanvasStatus] = useState(' ')
 
 
 // в массивах определяем индекс по длине массива,который хотим увеличить
@@ -98,7 +102,7 @@ return(
             type = 'text' 
             name = 'userAnswer'
             placeholder = {( nextVisible === true) ? JSON.parse(localStorage.getItem('gameMode4Answers'))[1] : 'Enter LC character name' }
-            onChange={(event) =>   setUserAnswer(event.target.value)}
+            onChange={(event) => {setCanvasStatus(' '); setUserAnswer(event.target.value)}}
             disabled = {(nextVisible === true) ? true : false }
             />
             <LCButton
@@ -109,12 +113,14 @@ return(
                         showAllEmoji();
                         setLCGameModeBorderClassesShake(true)
                         setNextVisible(true)
+                        setCanvasStatus(true)
                         localStorage.setItem('gm4Next' , true)
                         localStorage.setItem('gm4score', +(localStorage.getItem('gm4score'))+1)
                     }
                     else {
                         showNewEmoji();
                         setLCGameModeBorderClassesShake(false)
+                        setCanvasStatus(false)
 
                     }
                     
@@ -128,11 +134,13 @@ return(
                         answerSet()
                         setNextVisible(false)
                         localStorage.removeItem('gm4Next')
+                        setCanvasStatus(' ')
             }}>
                 Next
             </LCButton>
 
         </div>
+        <LCRandomEmoji canvasStatus = {canvasStatus}/>
     </form>
     
 

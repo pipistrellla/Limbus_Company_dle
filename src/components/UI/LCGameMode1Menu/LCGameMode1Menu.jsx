@@ -10,7 +10,8 @@ import { LCAnswerCheck } from "../../LCAnswerCheck";
 import { LCCanvasClear } from "../../LCCanvasClear";
 import LCSelect from "../LCSelect/LCSelect";
 import { LCRandomTask } from "../../LCRandomTask";
-import { LCCanvasStatusSet } from "../../LCCanvasStatusSet";
+import LCRandomEmoji from "../LCRandomEmoji/LCRandomEmoji";
+
 
 
 
@@ -18,7 +19,7 @@ const LCGameMode1Menu = () => {
     const canvasRef = useRef();
 
     useLCCanvasFill(canvasRef, LCFillBlack);
-
+    const [canvasStatus, setCanvasStatus] = useState(' ')
     const [gameMode1Answer,setGameModeAnswer] = useState('ryoshu')
     const [gameMode1IdentityAnswer, setGameMode1IdentityAnswer,] = useState('W Corp. L3 Cleanup Agent Ry3F Full')
 
@@ -218,7 +219,7 @@ return(
                 name = 'userAnswer'
                 placeholder = {( LCSelectVisible === true) ? gameMode1Answer : 'Enter LC character name'  }
                 disabled={(LCSelectVisible === true) ? true : false }
-                onChange={(event) => setUserAnswer(event.target.value)} />
+                onChange={(event) => {setCanvasStatus(' '); setUserAnswer(event.target.value)}} />
                 
                 <LCButton onClick = {(e) => 
                                         {e.preventDefault();
@@ -229,7 +230,7 @@ return(
                                                 localStorage.setItem('GameMode1Answer', JSON.stringify(true))
                                                 setLCSelectVisible(true)
                                                 setLCGameModeBorderClassesShake(true)
-                                                LCCanvasStatusSet(true)
+                                                setCanvasStatus(true)
 
                                             }
                                             else {
@@ -237,7 +238,8 @@ return(
                                                 localStorage.setItem('gameMode1XArr' , xArr.join(' '));
                                                 localStorage.setItem('gameMode1YArr' , yArr.join(' '));
                                                 setLCGameModeBorderClassesShake(false)
-                                                LCCanvasStatusSet(false)
+                                                localStorage.setItem('animation', false)
+                                                setCanvasStatus(false)
                                             }
                                             
                                         }
@@ -257,9 +259,11 @@ return(
                                                 setLCNextImageVisible(true)
                                                 setLCGameModeBorderClassesShake(true)
                                                 localStorage.setItem('gm1score', +(localStorage.getItem('gm1score'))+1)
+                                                setCanvasStatus(true)
                                             }
-                                        else 
-                                            setLCGameModeBorderClassesShake(false)}}
+                                        else{
+                                            setLCGameModeBorderClassesShake(false)
+                                            setCanvasStatus(false)}}}
                     defaultValue = {identity}
                     options = {JSON.parse(identityList)}
                     answer = {gameMode1Answer}
@@ -277,8 +281,7 @@ return(
                             setLCSelectVisible(false)
                             setLCNextImageVisible(false)
                             setUserAnswer('')
-                            
-                            
+                            setCanvasStatus(' ')
 
                 }}>
 
@@ -288,6 +291,7 @@ return(
 
 
         </div>
+        <LCRandomEmoji canvasStatus = {canvasStatus}/>
     </form>
     
 

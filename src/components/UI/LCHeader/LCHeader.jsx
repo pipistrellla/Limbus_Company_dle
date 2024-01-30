@@ -19,7 +19,7 @@ const LCHeader = () => {
                 <LCModal visible={modal} setVisible={setModal}>
                     <LCSetting/>
                 </LCModal>
-                <LCButton> 
+                <LCButton onClick={()=> window.location.reload() }> 
                     <Link to= '/LCdle'> Limbus Companydle </Link> 
                 </LCButton>
 

@@ -12,24 +12,10 @@ import incorrect2 from '../../../images/LCRandomImage/wrong/incorrect2.png'
 import incorrect3 from '../../../images/LCRandomImage/wrong/incorrect3.png'
 import incorrect4 from '../../../images/LCRandomImage/wrong/incorrect4.png'
 
-const LCRandomEmoji = () => {
+const LCRandomEmoji = (canvasStatus) => {
 
-    const [status, setStatus] = useState(' ')
-    const [count,setCount] = useState(1)
-
-    if ((localStorage.getItem('canvasStatus') === null) && (count === 1))
-        {setStatus(' ')
-        setCount(2)
-    } else if ((localStorage.getItem('canvasStatus') === 'true') && (count ===2)){
-        setStatus(true)
-        setCount(1)
-    } else if ((localStorage.getItem('canvasStatus') === 'false') && (count ===2))
-    {
-        setStatus(false)
-        setCount(1)
-    }
-
-
+    console.log(canvasStatus)
+    console.log(canvasStatus.canvasStatus)
     const canvasRef = useRef(null)
     
     let image = new Image(50,50)
@@ -60,22 +46,19 @@ const LCRandomEmoji = () => {
 
     const particles = []
     const inParticles = []
-
-    useEffect(() => {
-
+// генерация при верном ответе
+    const render = () => {
         const canvas = canvasRef.current
         canvas.width = window.innerWidth
         canvas.height = window.innerHeight
         const ctx =  canvas.getContext('2d')
 
-
-
         if (particles.length === 0){
-            for (let i = 0; i< 400; i++)
+            for (let i = 0; i< 125; i++)
             particles.push(
                 new RandomImage(
                     Math.random() * canvas.width,
-                    -200,
+                    -300,
                     images[Math.floor(Math.random() * 4)],
                     Math.random() * 360,
                     +40,
@@ -85,12 +68,27 @@ const LCRandomEmoji = () => {
             )
         }
 
+        ctx.clearRect(0,0,canvas.width, canvas.height)
+        particles.forEach((particle) => {
+            particle.draw();
+            particle.update(canvas)
+
+        } )
+        requestAnimationFrame(render)
+    }
+// генерация при не верном ответе
+    const inRender = () => {
+        const canvas = canvasRef.current
+        canvas.width = window.innerWidth
+        canvas.height = window.innerHeight
+        const ctx =  canvas.getContext('2d')
+
         if (inParticles.length === 0){
-            for (let i = 0; i< 400; i++)
+            for (let i = 0; i< 100; i++)
             inParticles.push(
                 new RandomImage(
                     Math.random() * canvas.width,
-                    -200,
+                    -250,
                     inImages[Math.floor(Math.random() * 4)],
                     Math.random() * 360,
                     +40,
@@ -100,36 +98,26 @@ const LCRandomEmoji = () => {
             )
         }
 
+        ctx.clearRect(0,0,canvas.width, canvas.height)
+        inParticles.forEach((particle) => {
+            particle.draw();
+            particle.update(canvas)
+
+        } )
+        requestAnimationFrame(inRender)
+    }
+
+    useEffect(() => {
         
-
-        const render = () => {
-            ctx.clearRect(0,0,canvas.width, canvas.height)
-            particles.forEach((particle) => {
-                particle.draw();
-                particle.update(canvas)
-
-            } )
-            requestAnimationFrame(render)
-        }
-
-        const inRender = () => {
-            ctx.clearRect(0,0,canvas.width, canvas.height)
-            inParticles.forEach((particle) => {
-                particle.draw();
-                particle.update(canvas)
-
-            } )
-            requestAnimationFrame(inRender)
-        }
-
-        // image3.onload = render (ctx, canvas)
-
-        // inImage3.onload = inRender( ctx, canvas)
+        if (canvasStatus.canvasStatus === true){
+            render()
+        } else if (canvasStatus.canvasStatus ===false)
+            inRender()
 
 
-    }, [status])
+    },)
 
-
+    
     return (
         <canvas ref = { canvasRef } className={classes.canvas}></canvas>
         

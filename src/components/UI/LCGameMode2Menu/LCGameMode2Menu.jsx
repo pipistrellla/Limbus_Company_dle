@@ -5,9 +5,11 @@ import LCButton from '../LCButton/LCButton'
 import LCCanvas from "../LCCanvas/LCCanvas";
 import { LCAnswerCheck } from "../../LCAnswerCheck";
 import { LCRandomTask } from "../../LCRandomTask";
+import LCRandomEmoji from "../LCRandomEmoji/LCRandomEmoji";
 
 
 const LCGameMode2Menu = () => {
+    const [canvasStatus, setCanvasStatus] = useState(' ')
     const [userAnswer, setUserAnswer] = useState('');
     const [imgLink, setImageLink] = useState([require('../../../images/ImageForGameMode2/Acupuncture_Outis_Icon.webp')])
     const [gameMode2Data, setGameMode2Data] = useState('[]')
@@ -101,7 +103,7 @@ return(
                     name = 'userAnswer'
                     disabled={(nextImageVisible === true) ? true : false }
                     placeholder = {(nextImageVisible === true) ?  gameMode2Answer: 'Enter LC character name' }
-                    onChange={(event) =>  setUserAnswer(event.target.value)
+                    onChange={(event) => {setCanvasStatus(' ') ;setUserAnswer(event.target.value)}
                     }/>
 
                 <LCButton 
@@ -115,10 +117,12 @@ return(
                                 localStorage.setItem('gm2next' , true)
                                 localStorage.setItem('gm2attempt' , 4)
                                 localStorage.setItem('gm2score', +(localStorage.getItem('gm2score'))+1)
+                                setCanvasStatus(true)
                             } else {
                                 setAttempNumber(attempNumber+1)
                                 setLCGameModeBorderClassesShake(false)
                                 localStorage.setItem('gm2attempt' , attempNumber+1)
+                                setCanvasStatus(false)
                             }
                         }
                     }> Confirm </LCButton>
@@ -133,7 +137,7 @@ return(
                             setAttempNumber(1)
                             localStorage.removeItem('gm2next')
                             localStorage.removeItem('gm2attempt')
-                            
+                            setCanvasStatus(' ')
                         }
                     }> next Image </LCButton>
             </div>
@@ -141,6 +145,7 @@ return(
 
 
         </div>
+    <LCRandomEmoji canvasStatus = {canvasStatus}/>
     </form>
     
 

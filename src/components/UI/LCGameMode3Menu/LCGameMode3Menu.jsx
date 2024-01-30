@@ -10,11 +10,13 @@ import { LCCanvasClear } from "../../LCCanvasClear";
 import {LCAnswerCheck} from "../../LCAnswerCheck";
 import LCSelect from "../LCSelect/LCSelect";
 import { LCRandomTask } from "../../LCRandomTask";
+import LCRandomEmoji from "../LCRandomEmoji/LCRandomEmoji";
+
 
 
 const LCGameMode3Menu = () => {
 
-    
+    const [canvasStatus, setCanvasStatus] = useState(' ')
     const canvasRef = useRef();
 
     const [LCEGOList, setLCEGOList] = useState(JSON.stringify([]))
@@ -231,7 +233,7 @@ return(
             type = 'text' 
             name = 'userAnswer'
             placeholder = {( LCSelectVisible === true) ? localStorage.getItem('gm3name') : 'Enter LC character name'  }
-            onChange={(event) => setUserAnswer(event.target.value)}
+            onChange={(event) => {setCanvasStatus(' '); setUserAnswer(event.target.value)}}
             disabled={LCSelectVisible}/>
             
             <LCButton 
@@ -247,11 +249,13 @@ return(
                                                 setLCSelectVisible(true)
                                                 setLCGameModeBorderClassesShake(true)
                                                 localStorage.setItem('gm3name', (JSON.parse(LCEGOList))[+localStorage.getItem('gameMode3Position')].characterName )
+                                                setCanvasStatus(true)
                                             }
                                             else {
                                                 UnDraw(xArr,yArr)
                                                 localStorage.setItem('gameMode3XArr' , xArr.join(' '));
                                                 localStorage.setItem('gameMode3YArr' , yArr.join(' '));
+                                                setCanvasStatus(false)
                                                 setLCGameModeBorderClassesShake(false)
                                             }
                                         }}
@@ -269,8 +273,10 @@ return(
                                         setLCNextImageVisible(true)
                                         localStorage.setItem('gm3EGO', value)
                                         localStorage.setItem('gm3score', +(localStorage.getItem('gm3score'))+1)
+                                        setCanvasStatus(true)
                                     } else {
                                         setLCGameModeBorderClassesShake(false)
+                                        setCanvasStatus(false)
                                     }}}
                 defaultValue = {EGO}
                 options = {JSON.parse(LCEGOList)}
@@ -288,6 +294,7 @@ return(
                     setLCSelectVisible(false)
                     setLCNextImageVisible(false)
                     setLCGameModeBorderClassesShake('next')
+                    setCanvasStatus(' ')
                 }}>
 
                 next image
@@ -295,6 +302,7 @@ return(
 
 
         </div>
+        <LCRandomEmoji canvasStatus = {canvasStatus}/>
     </form>
     
 
