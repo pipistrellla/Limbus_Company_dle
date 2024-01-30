@@ -12,6 +12,6 @@ export const routes = [
     {path: '/LCdle/LCGM2' ,  component: LCGameMode2  },
     {path: '/LCdle/LCGM3' , component: LCGameMode3 },
     {path: '/LCdle/LCGM4' , component: LCGameMode4 },
-    {path: '*' , component: LCError}
+    {path: '*' , component: LCMainMenu}
 
 ]
